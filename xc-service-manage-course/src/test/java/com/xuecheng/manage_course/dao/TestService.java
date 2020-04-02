@@ -2,6 +2,7 @@ package com.xuecheng.manage_course.dao;
 
 import com.github.pagehelper.Page;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
+import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.manage_course.service.CourseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +18,6 @@ public class TestService {
 
     @Test
     public void TestFindCourseList(){
-        Page<CourseInfo> courseList = courseService.findCourseList(1, 10);
-        System.out.println(courseList);
+
     }
 }

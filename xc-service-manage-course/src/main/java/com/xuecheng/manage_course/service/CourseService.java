@@ -6,9 +6,11 @@ import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
+import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
+import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.dao.CourseBaseRepository;
 import com.xuecheng.manage_course.dao.CourseMapper;
@@ -35,11 +37,15 @@ public class CourseService {
     CourseMapper courseMapper;
 
     /**
-     * 分页查询课程计划
+     * 分页查询课程信息
      */
-    public Page<CourseInfo> findCourseList(int pageNum, int size){
+    public QueryResponseResult findCourseList(int pageNum, int size, CourseListRequest courseListRequest){
         PageHelper.startPage(pageNum,size);
-        return courseMapper.findCourseList();
+        Page<CourseBase> courseList = courseMapper.findCourseList(courseListRequest);
+        QueryResult queryResult = new QueryResult();
+        queryResult.setList(courseList.getResult());
+        queryResult.setTotal(courseList.getTotal());
+        return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
     }
 
     /**
