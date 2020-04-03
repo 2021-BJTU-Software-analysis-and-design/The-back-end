@@ -1,6 +1,7 @@
 package com.xuecheng.manage_course.dao;
 
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.ext.CategoryNode;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +25,15 @@ public class TestDao {
     CourseMapper courseMapper;
     @Autowired
     TeachplanMapper teachplanMapper;
+    @Autowired
+    CategoryMapper categoryMapper;
+
+
+    @Test
+    public void testCategoryMapper(){
+        CategoryNode categoryNode = categoryMapper.selectList();
+        System.out.println(categoryNode);
+    }
 
     @Test
     public void testCourseBaseRepository(){

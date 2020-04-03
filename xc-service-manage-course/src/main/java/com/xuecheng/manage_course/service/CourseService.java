@@ -40,7 +40,7 @@ public class CourseService {
      * 分页查询课程信息
      */
     public QueryResponseResult findCourseList(int pageNum, int size, CourseListRequest courseListRequest){
-        PageHelper.startPage(pageNum,size);
+        PageHelper.startPage(pageNum,size);  //设置分页参数
         Page<CourseBase> courseList = courseMapper.findCourseList(courseListRequest);
         QueryResult queryResult = new QueryResult();
         queryResult.setList(courseList.getResult());

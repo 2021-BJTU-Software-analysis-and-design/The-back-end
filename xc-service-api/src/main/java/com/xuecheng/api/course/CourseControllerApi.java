@@ -15,13 +15,14 @@ import io.swagger.annotations.ApiOperation;
 @Api(value="课程管理API",description = "用于对课程计划的增删查改")
 public interface CourseControllerApi {
 
-    @ApiOperation("课程计划查询")
+
+    @ApiOperation("分页查询课程列表1")
+    public QueryResponseResult findCourseList(int page, int size, CourseListRequest courseListRequest);
+
+    @ApiOperation("课程计划查询1")
     public TeachplanNode findTeachplanList(String courseId);
 
-    @ApiOperation("添加课程计划")
+    @ApiOperation("添加课程计划1")
     public ResponseResult addTeachplan(Teachplan teachplan);
 
-
-    @ApiOperation("查询我的课程列表")
-    public QueryResponseResult findCourseList(int page, int size, CourseListRequest courseListRequest);
 }
