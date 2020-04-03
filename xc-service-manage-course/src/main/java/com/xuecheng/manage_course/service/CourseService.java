@@ -3,10 +3,8 @@ package com.xuecheng.manage_course.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
-import com.xuecheng.framework.domain.course.Teachplan;
-import com.xuecheng.framework.domain.course.ext.CourseInfo;
-import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
+import com.xuecheng.framework.domain.course.response.CourseCode;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -14,16 +12,8 @@ import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.dao.CourseBaseRepository;
 import com.xuecheng.manage_course.dao.CourseMapper;
-import com.xuecheng.manage_course.dao.TeachplanMapper;
-import com.xuecheng.manage_course.dao.TeachplanRepository;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CourseService {
@@ -45,4 +35,25 @@ public class CourseService {
         return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
     }
 
+    /**
+     * 添加课程
+     * @param courseBase
+     * @return
+     */
+    public ResponseResult saveCourse(CourseBase courseBase){
+
+        //校验数据唯一性，name
+        CourseBase byName = courseBaseRepository.findByName(courseBase.getName());
+        if(byName!= null){
+            ExceptionCast.cast(CourseCode.COURSE_NAME_ISEXIST);
+        }
+
+        CourseBase save = courseBaseRepository.save(courseBase);
+
+        if(save == null){
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
+        }
+
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
 }

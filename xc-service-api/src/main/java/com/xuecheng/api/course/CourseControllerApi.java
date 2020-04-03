@@ -1,7 +1,9 @@
 package com.xuecheng.api.course;
 
+import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.model.response.QueryResponseResult;
+import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -13,4 +15,6 @@ public interface CourseControllerApi {
     @ApiOperation("分页查询课程列表1")
     public QueryResponseResult findCourseList(int page, int size, CourseListRequest courseListRequest);
 
+    @ApiOperation("新增课程")
+    public ResponseResult saveCourse(CourseBase courseBase);
 }
