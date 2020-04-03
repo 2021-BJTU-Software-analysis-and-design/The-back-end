@@ -26,4 +26,16 @@ public class CourseContorller implements CourseControllerApi {
     public ResponseResult saveCourse(@RequestBody CourseBase courseBase) {
         return courseService.saveCourse(courseBase);
     }
+
+    @Override
+    @GetMapping("/coursebase/{id}")
+    public CourseBase getCourseById(@PathVariable("id") String courseId) {
+        return courseService.getCourseById(courseId);
+    }
+
+    @Override
+    @PutMapping("/coursebase/update/{id}")
+    public ResponseResult updateCourse(@PathVariable("id") String courseId, @RequestBody CourseBase courseBase) {
+        return courseService.updateCourse(courseId, courseBase);
+    }
 }

@@ -320,7 +320,7 @@ public class PageService {
         //效验cmsPage是否为空
         if(cmsPage == null){
             //抛出异常，非法参数
-            ExceptionCast.cast(CmsCode.CMS_ADDPAGE_EXISTS);
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
 
         //验证数据唯一性：sizeId、pageName、pageWebPath

@@ -15,6 +15,8 @@ import com.xuecheng.manage_course.dao.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CourseService {
 
@@ -33,6 +35,18 @@ public class CourseService {
         queryResult.setList(courseList.getResult());
         queryResult.setTotal(courseList.getTotal());
         return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+    }
+    /**
+     * 根绝课程id查询课程信息
+     */
+    public CourseBase getCourseById(String courseId){
+        Optional<CourseBase> optional = courseBaseRepository.findById(courseId);
+        if(!optional.isPresent()){
+            ExceptionCast.cast(CourseCode.COURSE_NOTEXIST);
+        }
+
+        CourseBase courseBase = optional.get();
+        return courseBase;
     }
 
     /**
@@ -54,6 +68,20 @@ public class CourseService {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
 
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    public ResponseResult updateCourse(String courseId,CourseBase courseBase) {
+        //先校验这个id是否存在
+        Optional<CourseBase> byId = courseBaseRepository.findById(courseId);
+        if(!byId.isPresent()){
+            ExceptionCast.cast(CourseCode.COURSE_NOTEXIST);
+        }
+
+        CourseBase save = courseBaseRepository.save(courseBase);
+        if(save == null){
+            return new ResponseResult(CommonCode.FAIL);
+        }
         return new ResponseResult(CommonCode.SUCCESS);
     }
 }
