@@ -29,6 +29,12 @@ public class CourseService {
      * 分页查询课程信息
      */
     public QueryResponseResult findCourseList(int pageNum, int size, CourseListRequest courseListRequest){
+        if(pageNum<=0){
+            pageNum = 0;
+        }
+        if(size<=0){
+            size = 20;
+        }
         PageHelper.startPage(pageNum,size);  //设置分页参数
         Page<CourseBase> courseList = courseMapper.findCourseList(courseListRequest);
         QueryResult queryResult = new QueryResult();

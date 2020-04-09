@@ -17,5 +17,5 @@ import org.springframework.context.annotation.ComponentScan;
     public class ManageCourseApplication {
         public static void main(String[] args) throws Exception {
             SpringApplication.run(ManageCourseApplication.class, args);
-        }
+    }
 }
