@@ -1,5 +1,6 @@
 .idea
 */target/*.*
+*/target/**/*.*
 *.class
 *.iml
 ##ignore this file##
