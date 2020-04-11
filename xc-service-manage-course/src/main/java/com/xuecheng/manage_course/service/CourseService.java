@@ -3,6 +3,7 @@ package com.xuecheng.manage_course.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.CourseCode;
 import com.xuecheng.framework.exception.ExceptionCast;
@@ -12,6 +13,7 @@ import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.dao.CourseBaseRepository;
 import com.xuecheng.manage_course.dao.CourseMapper;
+import com.xuecheng.manage_course.dao.CoursePicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ public class CourseService {
 
     @Autowired
     CourseBaseRepository courseBaseRepository;
+    @Autowired
+    CoursePicRepository coursePicRepository;
     @Autowired
     CourseMapper courseMapper;
 
@@ -88,6 +92,30 @@ public class CourseService {
         if(save == null){
             return new ResponseResult(CommonCode.FAIL);
         }
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    /**
+     * 保存课程图片信息到数据库
+     * @param courseId 课程id
+     * @param pic 图片id
+     * @return
+     */
+    public ResponseResult saveCoursePic(String courseId, String pic) {
+        CoursePic coursePic = null;
+        //判断该课程id是否已经存在图片
+        Optional<CoursePic> byId = coursePicRepository.findById(courseId);
+        if(byId.isPresent()){
+            coursePic = byId.get();
+        }
+        //不存在则重新创建一个课程图片对象并保存信息
+        if(coursePic == null){
+            coursePic = new CoursePic();
+        }
+
+        coursePic.setCourseid(courseId);
+        coursePic.setPic(pic);
+        CoursePic save = coursePicRepository.save(coursePic);
         return new ResponseResult(CommonCode.SUCCESS);
     }
 }

@@ -30,6 +30,7 @@ public enum CourseCode implements ResultCode {
     int code;
     //提示信息
     @ApiModelProperty(value = "操作提示", example = "操作过于频繁！", required = true)
+
     String message;
     private CourseCode(boolean success, int code, String message){
         this.success = success;

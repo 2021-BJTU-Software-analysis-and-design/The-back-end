@@ -38,4 +38,16 @@ public class CourseContorller implements CourseControllerApi {
     public ResponseResult updateCourse(@PathVariable("id") String courseId, @RequestBody CourseBase courseBase) {
         return courseService.updateCourse(courseId, courseBase);
     }
+
+    /**
+     * 保存课程信息与图片的对应关系
+     * @param courseId 课程id
+     * @param pic 图片文件id
+     * @return
+     */
+    @Override
+    @PostMapping("/coursepic/add")
+    public ResponseResult saveCoursePic(@RequestParam("courseId") String courseId, @RequestParam("pic") String pic) {
+        return courseService.saveCoursePic(courseId,pic);
+    }
 }

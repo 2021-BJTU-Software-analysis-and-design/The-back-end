@@ -4,7 +4,7 @@ spring:
   application:
     name: xc-service-manage-course
   datasource:
-    url: jdbc:mysql://localhost:3306/xc_course?characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/xc_course?characterEncoding=utf-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: 123123
     driverClassName: com.mysql.jdbc.Driver

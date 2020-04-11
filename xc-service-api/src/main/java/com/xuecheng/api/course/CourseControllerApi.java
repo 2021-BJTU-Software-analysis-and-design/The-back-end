@@ -23,4 +23,7 @@ public interface CourseControllerApi {
 
     @ApiOperation("更新课程信息")
     public ResponseResult updateCourse(String courseId,CourseBase courseBase);
+
+    @ApiOperation("保存课程图片信息")
+    public ResponseResult saveCoursePic(String courseId, String pic);
 }
