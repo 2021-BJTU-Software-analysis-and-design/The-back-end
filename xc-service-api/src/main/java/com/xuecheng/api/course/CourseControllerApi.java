@@ -1,6 +1,7 @@
 package com.xuecheng.api.course;
 
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
@@ -26,4 +27,10 @@ public interface CourseControllerApi {
 
     @ApiOperation("保存课程图片信息")
     public ResponseResult saveCoursePic(String courseId, String pic);
+
+    @ApiOperation("获得课程图片信息")
+    public CoursePic getCoursePic(String courseId);
+
+    @ApiOperation("删除课程图片信息")
+    public ResponseResult deleteCoursePic(String courseId);
 }

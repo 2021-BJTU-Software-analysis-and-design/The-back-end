@@ -16,6 +16,7 @@ import com.xuecheng.manage_course.dao.CourseMapper;
 import com.xuecheng.manage_course.dao.CoursePicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -101,6 +102,7 @@ public class CourseService {
      * @param pic 图片id
      * @return
      */
+    @Transactional  //Mysql操作需要添加到Spring事务
     public ResponseResult saveCoursePic(String courseId, String pic) {
         CoursePic coursePic = null;
         //判断该课程id是否已经存在图片
@@ -117,5 +119,34 @@ public class CourseService {
         coursePic.setPic(pic);
         CoursePic save = coursePicRepository.save(coursePic);
         return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    /**
+     * 根据课程id获得课程的图片信息
+     * @param courseId
+     * @return
+     */
+    @Transactional //Mysql操作需要添加到Spring事务
+    public CoursePic getCoursePic(String courseId) {
+        Optional<CoursePic> byId = coursePicRepository.findById(courseId);
+        if(byId.isPresent()){
+            CoursePic coursePic = byId.get();
+            return coursePic;
+        }
+        return null;
+    }
+
+    /**
+     * 删除课程图片信息
+     * @param courseId
+     * @return
+     */
+    @Transactional //Mysql操作需要添加到Spring事务
+    public ResponseResult deleteCoursePic(String courseId) {
+        long byCourseid = coursePicRepository.deleteByCourseid(courseId);
+        if(byCourseid > 0){
+            return new ResponseResult(CommonCode.SUCCESS);
+        }
+        return new ResponseResult(CommonCode.FAIL);
     }
 }
