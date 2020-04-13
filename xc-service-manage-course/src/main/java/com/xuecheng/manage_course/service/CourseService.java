@@ -3,7 +3,11 @@ package com.xuecheng.manage_course.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
+import com.xuecheng.framework.domain.course.Teachplan;
+import com.xuecheng.framework.domain.course.ext.CourseView;
+import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.CourseCode;
 import com.xuecheng.framework.exception.ExceptionCast;
@@ -11,9 +15,7 @@ import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
-import com.xuecheng.manage_course.dao.CourseBaseRepository;
-import com.xuecheng.manage_course.dao.CourseMapper;
-import com.xuecheng.manage_course.dao.CoursePicRepository;
+import com.xuecheng.manage_course.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,10 @@ public class CourseService {
     CourseBaseRepository courseBaseRepository;
     @Autowired
     CoursePicRepository coursePicRepository;
+    @Autowired
+    CourseMarketService courseMarketService;
+    @Autowired
+    TeachplanMapper teachplanMapper;
     @Autowired
     CourseMapper courseMapper;
 
@@ -148,5 +154,36 @@ public class CourseService {
             return new ResponseResult(CommonCode.SUCCESS);
         }
         return new ResponseResult(CommonCode.FAIL);
+    }
+
+    /**
+     * 获取课程视图数据模型
+     * @param courseId
+     * @return
+     */
+    public CourseView getCourseView(String courseId) {
+        CourseView courseView = new CourseView();
+        //获取课程基本信息
+        Optional<CourseBase> courseBaseOptional = courseBaseRepository.findById(courseId);
+        if(courseBaseOptional.isPresent()){
+            CourseBase courseBase = courseBaseOptional.get();
+            courseView.setCourseBase(courseBase);
+        }
+
+        //获取课程营销信息
+        CourseMarket courseMarketById = courseMarketService.findCourseMarketById(courseId);
+        courseView.setCourseMarket(courseMarketById);
+
+        //获取课程图片
+        Optional<CoursePic> coursePicOptional = coursePicRepository.findById(courseId);
+        if(coursePicOptional.isPresent()){
+            CoursePic coursePic = coursePicOptional.get();
+            courseView.setCoursePic(coursePic);
+        }
+
+        //获取课程计划
+        TeachplanNode teachplanNode = teachplanMapper.selectList(courseId);
+        courseView.setTeachplanNode(teachplanNode);
+        return courseView;
     }
 }
