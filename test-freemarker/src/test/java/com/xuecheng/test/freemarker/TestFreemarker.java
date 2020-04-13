@@ -7,14 +7,14 @@ import freemarker.template.TemplateException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +23,9 @@ import java.util.Map;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TestFreemarker {
+
+    @Autowired
+    RestTemplate restTemplate;
 
     //基于模板生成静态文件
     @Test

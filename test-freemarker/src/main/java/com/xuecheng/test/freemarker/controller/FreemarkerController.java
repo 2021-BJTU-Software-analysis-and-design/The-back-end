@@ -3,6 +3,7 @@ import com.xuecheng.test.freemarker.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,8 +17,22 @@ import java.util.Map;
 @Controller  //这里主要不要使用RestController,RestController默认返回json数据,使模板引擎失效
 public class FreemarkerController {
 
+
     @Autowired
     RestTemplate restTemplate;
+
+
+    /**
+     * 调试课程预览模板渲染
+     * @param map
+     */
+    @RequestMapping("/courseview")
+    public String testCourseView(Map<String,Object> map){
+        ResponseEntity<Map> responseEntity = restTemplate.getForEntity("http://localhost:31200/course/courseview/4028e581617f945f01617f9dabc40000", Map.class);
+        Map entityBody = responseEntity.getBody();
+        map.putAll(entityBody);
+        return "course";
+    }
 
     /**
      * 用于调试banner模板

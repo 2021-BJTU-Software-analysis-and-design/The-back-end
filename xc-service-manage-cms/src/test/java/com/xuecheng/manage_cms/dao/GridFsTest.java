@@ -50,7 +50,7 @@ public class GridFsTest {
     @Test
     public void testGridFs() throws FileNotFoundException {
         //要储存的文件
-        File file = new File("d:/resources/index-banner.ftl");
+        File file = new File("d:/resources/course.ftl");
         //定义输入流
         FileInputStream fileInputStream = new FileInputStream(file);
         //向GridFS存储文件
