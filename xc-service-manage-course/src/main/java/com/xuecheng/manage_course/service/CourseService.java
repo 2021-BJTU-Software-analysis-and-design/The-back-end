@@ -2,6 +2,8 @@ package com.xuecheng.manage_course.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.xuecheng.framework.domain.cms.CmsPage;
+import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
@@ -10,13 +12,16 @@ import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.CourseCode;
+import com.xuecheng.framework.domain.course.response.CoursePublishResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
+import com.xuecheng.manage_course.client.CmsPageClient;
 import com.xuecheng.manage_course.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +29,20 @@ import java.util.Optional;
 
 @Service
 public class CourseService {
+
+    //从配置文件获取课程发布的基本配置
+    @Value("${course-publish.dataUrlPre}")
+    private String publish_dataUrlPre;
+    @Value("${course-publish.pagePhysicalPath}")
+    private String publish_page_physicalpath;
+    @Value("${course-publish.pageWebPath}")
+    private String publish_page_webpath;
+    @Value("${course-publish.siteId}")
+    private String publish_siteId;
+    @Value("${course-publish.templateId}")
+    private String publish_templateId;
+    @Value("${course-publish.previewUrl}")
+    private String previewUrl;
 
     @Autowired
     CourseBaseRepository courseBaseRepository;
@@ -35,6 +54,8 @@ public class CourseService {
     TeachplanMapper teachplanMapper;
     @Autowired
     CourseMapper courseMapper;
+    @Autowired
+    CmsPageClient cmsPageClient;
 
     /**
      * 分页查询课程信息
@@ -185,5 +206,49 @@ public class CourseService {
         TeachplanNode teachplanNode = teachplanMapper.selectList(courseId);
         courseView.setTeachplanNode(teachplanNode);
         return courseView;
+    }
+
+    //根据id查询课程基本信息
+    public CourseBase findCourseBaseById(String courseId){
+        //获取课程信息
+        Optional<CourseBase> optionalCourseBase = courseBaseRepository.findById(courseId);
+        if(!optionalCourseBase.isPresent()){
+            //课程不存在抛出异常
+            ExceptionCast.cast(CourseCode.COURSE_NOTEXIST);
+            return null;
+        }
+        return optionalCourseBase.get();
+    }
+    /**
+     * 课程详细页面发布前预览
+     * @param courseId
+     * @return
+     */
+    public CoursePublishResult coursePublishPreview(String courseId) {
+        //获取课程信息
+        CourseBase courseBaseById = this.findCourseBaseById(courseId);
+
+        //拼装页面基本信息
+        CmsPage cmsPage = new CmsPage();
+        cmsPage.setDataUrl(publish_dataUrlPre + courseId);
+        cmsPage.setPagePhysicalPath(publish_page_physicalpath);
+        cmsPage.setPageWebPath(publish_page_webpath);
+        cmsPage.setSiteId(publish_siteId);
+        cmsPage.setTemplateId(publish_templateId);
+
+        //页面别名
+        cmsPage.setPageAliase(courseBaseById.getName());
+
+        //远程调用，保存页面信息
+        CmsPageResult cmsPageResult = cmsPageClient.saveCmsPage(cmsPage);
+        if(!cmsPageResult.isSuccess()){
+            return new CoursePublishResult(CommonCode.FAIL,null);
+        }
+
+        //页面id
+        String cmsPageId = cmsPageResult.getCmsPage().getPageId();
+        //返回预览url
+        String url = previewUrl + cmsPageId;
+        return new CoursePublishResult(CommonCode.SUCCESS,url);
     }
 }

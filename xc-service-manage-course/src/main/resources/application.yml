@@ -19,7 +19,7 @@ spring:
     minEvictableIdleTimeMillis: 300000  #连接在连接池的最小生存时间（毫秒）
 
 pagehelper:
-    helper‐dialect: mysql
+    helper- dialect: mysql
 
 eureka:
   client:
@@ -38,3 +38,11 @@ ribbon:
   OkToRetryOnAllOperations: false  #对所有操作请求都进行重试，如果是get则可以，如果是post，put等操作没有实现幂等的情况下是很危险的,所以设置为false
   ConnectTimeout: 5000  #请求连接的超时时间
   ReadTimeout: 6000 #请求处理的超时时间
+
+course-publish:
+  siteId: 5a751fab6abb5044e0d19ea1
+  templateId: 5e93d2e3d79e7d6ed1009b95
+  previewUrl: http://www.xuecheng.com/cms/preview/
+  pageWebPath: /course/detail/
+  pagePhysicalPath: /course/detail/
+  dataUrlPre: http://localhost:31200/course/preview/model/

@@ -54,7 +54,7 @@ public class CmsPageController implements CmsPageControllerApi {
      */
     @Override
     @PostMapping("/save")
-    public CmsPageResult saveCmsPage(CmsPage cmsPage) {
+    public CmsPageResult saveCmsPage(@RequestBody CmsPage cmsPage) {
         return pageService.saveCmsPage(cmsPage);
     }
 
