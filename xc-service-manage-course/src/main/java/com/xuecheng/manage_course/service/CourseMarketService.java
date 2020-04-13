@@ -25,12 +25,14 @@ public class CourseMarketService {
        return courseMarket;
    }
 
+    /**
+     * 更新课程营销消息
+     * @param id
+     * @param courseMarket
+     * @return
+     */
    public ResponseResult updateCourseMarket(String id,CourseMarket courseMarket){
        CourseMarket courseMarketById = this.findCourseMarketById(id);
-       if(courseMarketById == null){
-            ExceptionCast.cast(CommonCode.INVALID_PARAM);
-       }
-
        CourseMarket save = courseMarketRepository.save(courseMarket);
        return new ResponseResult(CommonCode.SUCCESS);
    }
