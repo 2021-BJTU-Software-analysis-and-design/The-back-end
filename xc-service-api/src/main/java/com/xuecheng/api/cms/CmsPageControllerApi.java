@@ -33,6 +33,16 @@ public interface CmsPageControllerApi {
     public CmsPageResult addCmsPage(CmsPage cmsPage);
 
     /**
+     * 保存页面数据
+     */
+    @ApiOperation("保存页面数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="cmsPage",value = "请提交json形式的页面数据",required=true,paramType="CmsPage",dataType="CmsPage"),
+    })
+    public CmsPageResult saveCmsPage(CmsPage cmsPage);
+
+
+    /**
      * 通过ID查询页面
      */
     @ApiOperation("通过ID查询页面")

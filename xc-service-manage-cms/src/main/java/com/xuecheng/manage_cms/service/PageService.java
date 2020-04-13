@@ -339,6 +339,28 @@ public class PageService {
 
     }
 
+    /**
+     * 保存页面：如果不存在则添加，存在则更新。
+     * @param cmsPage
+     * @return
+     */
+    public CmsPageResult saveCmsPage(CmsPage cmsPage) {
+        //效验cmsPage是否为空
+        if(cmsPage == null){
+            //抛出异常，非法参数
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
+        }
+
+        //验证数据唯一性：sizeId、pageName、pageWebPath
+        CmsPage one = cmsPageRepository.findByPageNameAndSiteIdAndPageWebPath(cmsPage.getPageName(), cmsPage.getSiteId(), cmsPage.getPageWebPath());
+
+        //如果页面已存在则进行更新操作
+        if (one != null) {
+            return this.updateCmsPage(one.getPageId(),one);
+        }
+        //不存在则直接添加
+        return this.addCmsPage(cmsPage);
+    }
 
     /**
      * 修改页面数据
@@ -363,7 +385,6 @@ public class PageService {
             one.setPagePhysicalPath(cmsPage.getPagePhysicalPath());
             //更新dataUrl
             one.setDataUrl(cmsPage.getDataUrl());
-
             CmsPage save = cmsPageRepository.save(one);
             if(save != null){
                 return new CmsPageResult(CommonCode.SUCCESS, save);
@@ -387,4 +408,5 @@ public class PageService {
         }
         return new ResponseResult(CommonCode.FAIL);
     }
+
 }

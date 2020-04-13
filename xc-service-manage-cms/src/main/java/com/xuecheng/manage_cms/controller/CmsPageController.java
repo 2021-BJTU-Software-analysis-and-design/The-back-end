@@ -48,6 +48,17 @@ public class CmsPageController implements CmsPageControllerApi {
     }
 
     /**
+     * 保存页面
+     * @param cmsPage
+     * @return
+     */
+    @Override
+    @PostMapping("/save")
+    public CmsPageResult saveCmsPage(CmsPage cmsPage) {
+        return pageService.saveCmsPage(cmsPage);
+    }
+
+    /**
      * 根据id查询页面数据
      * @param id
      * @return
