@@ -356,7 +356,8 @@ public class PageService {
 
         //如果页面已存在则进行更新操作
         if (one != null) {
-            return this.updateCmsPage(one.getPageId(),one);
+            CmsPageResult cmsPageResult = this.updateCmsPage(one.getPageId(), cmsPage);
+            return cmsPageResult;  //将传递过来的页面更新到原有的页面数据中
         }
         //不存在则直接添加
         return this.addCmsPage(cmsPage);
