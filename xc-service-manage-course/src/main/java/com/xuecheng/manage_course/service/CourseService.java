@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
@@ -224,20 +225,10 @@ public class CourseService {
      * @param courseId
      * @return
      */
+    @Transactional
     public CoursePublishResult coursePublishPreview(String courseId) {
-        //获取课程信息
-        CourseBase courseBaseById = this.findCourseBaseById(courseId);
-
-        //拼装页面基本信息
-        CmsPage cmsPage = new CmsPage();
-        cmsPage.setDataUrl(publish_dataUrlPre + courseId);
-        cmsPage.setPagePhysicalPath(publish_page_physicalpath);
-        cmsPage.setPageWebPath(publish_page_webpath);
-        cmsPage.setSiteId(publish_siteId);
-        cmsPage.setTemplateId(publish_templateId);
-
-        //页面别名
-        cmsPage.setPageAliase(courseBaseById.getName());
+        //拼装页面信息
+        CmsPage cmsPage = setPageInfo(courseId);
 
         //远程调用，保存页面信息
         CmsPageResult cmsPageResult = cmsPageClient.saveCmsPage(cmsPage);
@@ -250,5 +241,53 @@ public class CourseService {
         //返回预览url
         String url = previewUrl + cmsPageId;
         return new CoursePublishResult(CommonCode.SUCCESS,url);
+    }
+
+    /**
+     * 课程详细页面发布
+     */
+    @Transactional
+    public CoursePublishResult coursePublish(String courseId){
+        //拼装页面信息
+        CmsPage cmsPage = setPageInfo(courseId);
+
+        //发布课程详细页面
+        CmsPostPageResult cmsPostPageResult = cmsPageClient.postPageQuick(cmsPage);
+        if(!cmsPostPageResult.isSuccess()){
+            return new CoursePublishResult(CommonCode.FAIL,null);
+        }
+
+        //更新课程状态
+        CourseBase courseBaseById = this.findCourseBaseById(courseId);
+        courseBaseById.setStatus("202002");
+        courseBaseRepository.save(courseBaseById);
+
+        //课程索引...
+
+        //课程缓存...
+
+        //页面url
+        String pageUrl = cmsPostPageResult.getPageUrl();
+        return new CoursePublishResult(CommonCode.SUCCESS,pageUrl);
+    }
+
+
+    //拼装页面信息
+    private CmsPage setPageInfo(String courseId){
+        //获取课程信息
+        CourseBase courseBaseById = this.findCourseBaseById(courseId);
+
+        //拼装页面基本信息
+        CmsPage cmsPage = new CmsPage();
+        cmsPage.setDataUrl(publish_dataUrlPre + courseId);
+        cmsPage.setPagePhysicalPath(publish_page_physicalpath);
+        cmsPage.setPageWebPath(publish_page_webpath);
+        cmsPage.setSiteId(publish_siteId);
+        cmsPage.setTemplateId(publish_templateId);
+        cmsPage.setPageName(courseId + ".html");
+
+        //页面别名
+        cmsPage.setPageAliase(courseBaseById.getName());
+        return cmsPage;
     }
 }

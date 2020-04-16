@@ -8,11 +8,14 @@ import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.CmsSite;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CmsCode;
+import com.xuecheng.framework.model.response.CommonCode;
+import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_cms_client.dao.CmsPageRepository;
 import com.xuecheng.manage_cms_client.dao.CmsSiteRepository;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
@@ -58,7 +61,7 @@ public class PageService {
         }
 
         //原讲义和视频中使用的是sizePathysicaiPath,但是SizePage中没有这个字段，使用PageCms中的PathysicaiPath代替
-        String pagePath = cmsPage.getPagePhysicalPath() + cmsPage.getPageWebPath() + cmsPage.getPageName();
+        String pagePath = cmsPage.getPagePhysicalPath() + cmsPage.getPageName();
 
         //获取页面文件id
         String htmlFileId = cmsPage.getHtmlFileId();
@@ -78,6 +81,7 @@ public class PageService {
             IOUtils.copy(inputStream,fileOutputStream);
         }catch (Exception e){
             e.printStackTrace();
+            ExceptionCast.cast(CommonCode.FAIL);
         }finally {
             //关闭流
             try {

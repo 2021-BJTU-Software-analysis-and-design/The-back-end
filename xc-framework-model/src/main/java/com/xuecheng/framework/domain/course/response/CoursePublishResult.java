@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CoursePublishResult extends ResponseResult {
-    String previewUrl;
+    String previewUrl;  //
     public CoursePublishResult(ResultCode resultCode, String previewUrl) {
         super(resultCode);
         this.previewUrl = previewUrl;

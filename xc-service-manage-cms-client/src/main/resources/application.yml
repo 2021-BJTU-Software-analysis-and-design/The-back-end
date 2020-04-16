@@ -13,12 +13,29 @@ spring:
     username: guest
     password: guest
     virtual-host: /
+    listener:
+      simple:
+        retry:
+          enabled: true # 开启消费者进行重试
+          max-attempts: 3 # 最大重试次数
+          initial-interval: 3000 # 重试时间间隔
   freemarker:
     cache: false #关闭模板缓存，方便测试
     settings:
       template_update_delay: 0
+eureka:
+  client:
+    registerWithEureka: true #服务注册开关
+    fetchRegistry: true #服务发现开关
+    serviceUrl: #Eureka客户端与Eureka服务端进行交互的地址，多个中间用逗号分隔
+      defaultZone: ${EUREKA_SERVER:http://eureka01:50101/eureka/,http://eureka02:50102/eureka/},
+  instance:
+    prefer-ip-address:  true  #将自己的ip地址注册到Eureka服务中
+    ip-address: ${IP_ADDRESS:127.0.0.1}
+    instance-id: ${spring.application.name}:${server.port} #指定实例id
+
 xuecheng:
   mq:
   #cms客户端监控的队列名称（不同的客户端监控的队列不能重复）
     queue: queue_cms_postpage_01
-    routingKey: 5a751fab6abb5044e0d19ea1 #此routingKey为门户站点ID3
+    routingKey: 5b30b052f58b4411fc6cb1cf #此routingKey为门户站点ID3

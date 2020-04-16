@@ -87,9 +87,27 @@ public class CourseContorller implements CourseControllerApi {
         return courseService.getCourseView(courseId);
     }
 
+    /**
+     * 课程预览
+     * @param courseId
+     * @return
+     */
     @Override
     @PostMapping("/preview/{id}")
     public CoursePublishResult CoursePublishPreview(@PathVariable("id") String courseId) {
         return courseService.coursePublishPreview(courseId);
     }
+
+    /**
+     * 课程发布
+     * @param courseId
+     * @return
+     */
+    @Override
+    @PostMapping("/publish/{id}")
+    public CoursePublishResult CoursePublish(@PathVariable("id") String courseId) {
+        return courseService.coursePublish(courseId);
+    }
+
+
 }

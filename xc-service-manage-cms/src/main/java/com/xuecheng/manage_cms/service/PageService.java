@@ -5,13 +5,17 @@ import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.xuecheng.framework.domain.cms.CmsPage;
+import com.xuecheng.framework.domain.cms.CmsSite;
 import com.xuecheng.framework.domain.cms.CmsTemplate;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsSizeResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.*;
 import com.xuecheng.manage_cms.config.RabbitmqConfig;
 import com.xuecheng.manage_cms.dao.CmsPageRepository;
+import com.xuecheng.manage_cms.dao.CmsSiteRepository;
 import com.xuecheng.manage_cms.dao.CmsTemplateRepository;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
@@ -44,6 +48,9 @@ public class PageService {
 
     @Autowired
     CmsPageRepository cmsPageRepository;
+
+    @Autowired
+    CmsSiteRepository cmsSiteRepository;
 
     @Autowired
     RestTemplate restTemplate;
@@ -237,7 +244,6 @@ public class PageService {
 
     /**
      * 分页查询
-     *
      * @param page             页号
      * @param size             每页大小
      * @param queryPageRequest 查询条件
@@ -392,6 +398,48 @@ public class PageService {
             }
         }
         return new CmsPageResult(CommonCode.FAIL, cmsPage);
+    }
+
+    /**
+     * 一键发布页面
+     * @param cmsPage
+     * @return
+     */
+    public CmsPostPageResult postPageQuick(CmsPage cmsPage) {
+        //添加页面，这里直接调用我们在做预览页面时候开发的保存页面方法
+        CmsPageResult cmsPageResult = this.saveCmsPage(cmsPage);
+        if(!cmsPageResult.isSuccess()){
+            //添加页面失败
+            return new CmsPostPageResult(CommonCode.FAIL,null);
+        }
+
+        CmsPage saveCmsPage = cmsPageResult.getCmsPage();
+        String pageId = saveCmsPage.getPageId();
+
+        //发布页面,通知cms client发布页面
+        ResponseResult responseResult = this.postPage(pageId);
+        if(!responseResult.isSuccess()){
+            //发布失败
+            return new CmsPostPageResult(CommonCode.FAIL,null);
+        }
+
+        //得到页面的url，页面url=站点域名+站点webpath+页面webpath+页面名称
+        //所以这里我们需要获取站点信息
+        String siteId = saveCmsPage.getSiteId();
+        Optional<CmsSite> cmsSiteOptional = cmsSiteRepository.findById(siteId);
+        if(!cmsSiteOptional.isPresent()){
+            //获取站点异常
+            return new CmsPostPageResult(CommonCode.FAIL,null);
+        }
+        CmsSite cmsSite = cmsSiteOptional.get();
+        //站点和页面的信息
+        String siteDomain = cmsSite.getSiteDomain();
+        String siteWebPath = cmsSite.getSiteWebPath();
+        String pageWebPath = saveCmsPage.getPageWebPath();
+        String pageName = saveCmsPage.getPageName();
+        //发布页面的访问地址
+        String pageUrl = siteDomain + siteWebPath + pageWebPath + pageName;
+        return new CmsPostPageResult(CommonCode.SUCCESS, pageUrl);
     }
 
     /**
