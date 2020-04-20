@@ -236,6 +236,11 @@ public class CourseService {
             return new CoursePublishResult(CommonCode.FAIL,null);
         }
 
+        //更新课程状态
+        CourseBase courseBaseById = this.findCourseBaseById(courseId);
+        courseBaseById.setStatus("202001");
+        courseBaseRepository.save(courseBaseById);
+
         //页面id
         String cmsPageId = cmsPageResult.getCmsPage().getPageId();
         //返回预览url
