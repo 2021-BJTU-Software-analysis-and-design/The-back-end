@@ -44,5 +44,5 @@ course-publish:
   templateId: 5e93d2e3d79e7d6ed1009b95
   previewUrl: http://www.xuecheng.com/cms/preview/
   pageWebPath: /course/detail/
-  pagePhysicalPath: G:/job/code/Project/XueChengOnline/xcEduUI01/xuecheng/static/course/detail/
+  pagePhysicalPath: E:/Project/XueChengOnline/xcEduUI01/xuecheng/static/course/detail/
   dataUrlPre: http://localhost:31200/course/preview/model/
