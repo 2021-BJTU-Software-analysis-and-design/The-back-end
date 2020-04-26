@@ -19,9 +19,9 @@ import java.util.Date;
 public class CoursePub implements Serializable {
     private static final long serialVersionUID = -916357110051689487L;
     @Id
+    private String id;
     @GeneratedValue(generator = "jpa-assigned")
     @Column(length = 32)
-    private String id;
     private String name;
     private String users;
     private String mt;
