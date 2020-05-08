@@ -14,11 +14,11 @@ import io.swagger.annotations.ApiOperation;
  * 课程计划管理相关的API接口
  */
 @Api(value="课程管理API",description = "用于对课程的增删查改")
-public interface CourseControllerApi {
-    @ApiOperation("分页查询课程列表1")
-    public QueryResponseResult findCourseList(int page, int size, CourseListRequest courseListRequest);
+    public interface CourseControllerApi {
+        @ApiOperation("分页查询课程列表1")
+        public QueryResponseResult findCourseList(int page, int size, CourseListRequest courseListRequest);
 
-    @ApiOperation("新增课程")
+        @ApiOperation("新增课程")
     public ResponseResult saveCourse(CourseBase courseBase);
 
     @ApiOperation("根据课程id查询课程信息")

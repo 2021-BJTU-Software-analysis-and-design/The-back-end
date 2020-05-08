@@ -51,5 +51,4 @@ public class ElasticsearchConfig {
         }
         return RestClient.builder(httpHostArray).build();
     }
-
 }
