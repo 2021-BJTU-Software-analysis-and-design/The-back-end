@@ -13,10 +13,7 @@ import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.CourseCode;
 import com.xuecheng.framework.domain.course.response.CoursePublishResult;
 import com.xuecheng.framework.exception.ExceptionCast;
-import com.xuecheng.framework.model.response.CommonCode;
-import com.xuecheng.framework.model.response.QueryResponseResult;
-import com.xuecheng.framework.model.response.QueryResult;
-import com.xuecheng.framework.model.response.ResponseResult;
+import com.xuecheng.framework.model.response.*;
 import com.xuecheng.manage_course.client.CmsPageClient;
 import com.xuecheng.manage_course.dao.*;
 import org.springframework.beans.BeanUtils;
@@ -282,6 +279,13 @@ public class CourseService {
 
         //课程索引...
         CoursePub coursePub = crateCoursePub(courseId);
+        if(coursePub.getCharge() == null){
+            return new CoursePublishResult(CourseCode.COURSE_PUBLISH_MARKETISNULL,null);
+        }
+        if(coursePub.getTeachplan() == null){
+            return new CoursePublishResult(CourseCode.COURSE_PUBLISH_TEACHPLANISNULL,null);
+        }
+
         CoursePub coursePubSave = saveCoursePub(courseId, coursePub);
 
         //课程缓存...
