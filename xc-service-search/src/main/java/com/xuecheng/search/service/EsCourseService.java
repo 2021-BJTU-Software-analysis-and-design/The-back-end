@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -16,6 +17,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,11 +137,26 @@ public class EsCourseService {
             CoursePub coursePub = new CoursePub();
 
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+
+
             //取出id
             String id = (String) sourceAsMap.get("id");
             coursePub.setId(id);
             //取出名称
             String name = (String) sourceAsMap.get("name");
+
+            //取出高亮字段
+            Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+            if(highlightFields.get("name")!=null){
+                HighlightField highlightField = highlightFields.get("name");
+                Text[] fragments = highlightField.fragments();
+                StringBuffer stringBuffer = new StringBuffer();
+                //拼接字段
+                for(Text text:fragments){
+                    stringBuffer.append(text);
+                }
+                name = stringBuffer.toString();
+            }
             coursePub.setName(name);
             //图片
             String pic = (String) sourceAsMap.get("pic");
@@ -164,8 +181,9 @@ public class EsCourseService {
                 e.printStackTrace();
             }
             coursePub.setPrice_old(priceOld);
-
             list.add(coursePub);
+
+
         }
 
         //返回响应结果
