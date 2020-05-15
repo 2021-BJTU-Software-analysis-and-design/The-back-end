@@ -31,13 +31,14 @@ public class TeachplanService {
 
     /**
      * 添加课程计划
+     *
      * @param teachplan
      * @return
      */
     @Transactional  //增删改操作都需要加spring事务
     public ResponseResult addTeachplan(Teachplan teachplan) {
         //校验课程id和课程计划名称
-        if(teachplan == null|| StringUtils.isEmpty(teachplan.getCourseid()) || StringUtils.isEmpty(teachplan.getPname())){
+        if (teachplan == null || StringUtils.isEmpty(teachplan.getCourseid()) || StringUtils.isEmpty(teachplan.getPname())) {
             ExceptionCast.cast(CommonCode.INVALID_PARAM);
         }
 
@@ -45,14 +46,13 @@ public class TeachplanService {
         String courseId = teachplan.getCourseid();
         //取出父节点id
         String parentId = teachplan.getParentid();
-        String newTeachplanGrade = "3";  //设置新节点的菜单等级
-
+        String newTeachplanGrade = "3";  //设置
         // 如果用户未在添加时候未选择根节点,表示需要添加的是一个二级菜单，并且默认添加到当前课程的根节点下
-        if(StringUtils.isEmpty(parentId)){
+        if (StringUtils.isEmpty(parentId)) {
             newTeachplanGrade = "2";
-            //根据课程id取根节点的id
+            //根据课程id获取课程根节点id，如果根节点不存在 则创建一个根节点，并作为该课程的根节点d取根节点的id,
             parentId = this.getTeachplanRoot(courseId);
-            if(StringUtils.isEmpty(parentId)){
+            if (StringUtils.isEmpty(parentId)) {
                 ExceptionCast.cast(CommonCode.INVALID_PARAM);
             }
         }
@@ -60,7 +60,7 @@ public class TeachplanService {
         //创建新节点
         Teachplan teachplanNew = new Teachplan();
         //将传入的节点信息赋值到新节点内
-        BeanUtils.copyProperties(teachplan,teachplanNew);
+        BeanUtils.copyProperties(teachplan, teachplanNew);
         teachplanNew.setParentid(parentId);
         teachplanNew.setCourseid(courseId);
 
@@ -75,10 +75,10 @@ public class TeachplanService {
     }
 
     //根据课程id获取课程根节点id，如果根节点不存在 则创建一个根节点，并作为该课程的根节点
-    private String getTeachplanRoot(String courseId){
+    private String getTeachplanRoot(String courseId) {
         //校验课程id
         Optional<CourseBase> optional = courseBaseRepository.findById(courseId);
-        if(!optional.isPresent()){
+        if (!optional.isPresent()) {
             return null;
         }
         CourseBase courseBase = optional.get();
@@ -86,13 +86,14 @@ public class TeachplanService {
         List<Teachplan> teachplanList = teachplanRepository.findByCourseidAndParentid(courseId, "0");
 
         //如果根节点不存在，则新增一个节点，并且作为该课程的根节点
-        if(teachplanList == null || teachplanList.size() == 0){
+        if (teachplanList == null || teachplanList.size() == 0) {
             //新增一个节点
             Teachplan teachplanNewRoot = new Teachplan();
             teachplanNewRoot.setCourseid(courseId);
             teachplanNewRoot.setPname(courseBase.getName());
             teachplanNewRoot.setCourseid(courseId);
             teachplanNewRoot.setGrade("1"); //1级菜单
+            teachplanNewRoot.setParentid("0"); //设置父节点id
             teachplanNewRoot.setStatus("0"); //未发布
             teachplanRepository.save(teachplanNewRoot);
             return teachplanNewRoot.getId();
@@ -103,10 +104,11 @@ public class TeachplanService {
 
     /**
      * 查询课程计划
+     *
      * @param courseId
      * @return
      */
-    public TeachplanNode findTeachplanList(String courseId){
+    public TeachplanNode findTeachplanList(String courseId) {
         TeachplanNode teachplanNode = teachplanMapper.selectList(courseId);
         return teachplanNode;
     }
