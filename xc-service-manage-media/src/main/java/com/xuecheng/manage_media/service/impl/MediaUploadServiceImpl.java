@@ -1,11 +1,14 @@
 package com.xuecheng.manage_media.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.netflix.discovery.converters.Auto;
 import com.xuecheng.framework.domain.media.MediaFile;
 import com.xuecheng.framework.domain.media.response.CheckChunkResult;
 import com.xuecheng.framework.domain.media.response.MediaCode;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.ResponseResult;
+import com.xuecheng.manage_media.config.RabbitMQConfig;
 import com.xuecheng.manage_media.controller.MediaUploadController;
 import com.xuecheng.manage_media.dao.MediaFileRepository;
 import com.xuecheng.manage_media.service.MediaUploadService;
@@ -14,11 +17,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.jws.Oneway;
 import java.io.*;
 import java.util.*;
 
@@ -46,7 +52,7 @@ class MediaUploadServiceImpl implements MediaUploadService {
 
         //获取文件所属目录以及文件路径
         String fileFloderPath = this.getFileFloderPath(fileMd5);
-        String filePath = this.getFilePath(fileMd5, fileExt);
+        String filePath = this.getFileFullPath(fileMd5, fileExt);
         File file = new File(filePath);
         boolean exists = file.exists();
 
@@ -123,8 +129,8 @@ class MediaUploadServiceImpl implements MediaUploadService {
         //获取文件块路径
         String chunkFloderPath = getChunkFloderPath(fileMd5);
         //合并文件路径
-        String filePath = this.getFilePath(fileMd5, fileExt);
-        File mergeFile = new File(filePath);
+        String fileFullPath = this.getFileFullPath(fileMd5, fileExt);
+        File mergeFile = new File(fileFullPath);
         //创建合并文件,如果存在则先删除再创建
         if(mergeFile.exists()){
             mergeFile.delete();
@@ -163,7 +169,9 @@ class MediaUploadServiceImpl implements MediaUploadService {
         mediaFile.setFileOriginalName(fileName);
 
         //文件路径保存相对路径
-        mediaFile.setFilePath(filePath);
+        String filePath = this.getFilePath(fileMd5,fileExt);
+        mediaFile.setFilePath(this.getFilePath(fileMd5,fileExt));
+        mediaFile.setFileUrl(filePath + fileName + "." + fileExt);
         mediaFile.setFileSize(fileSize);
         mediaFile.setUploadTime(new Date());
         mediaFile.setMimeType(mimetype);
@@ -172,9 +180,44 @@ class MediaUploadServiceImpl implements MediaUploadService {
         //状态为上传成功
         mediaFile.setFileStatus("301002");
         MediaFile save = mediaFileRepository.save(mediaFile);
+
+        //向MQ发送视频处理消息
+        this.sendProcessVideoMsg(fileMd5);
+
         return new ResponseResult(CommonCode.SUCCESS);
 
     }
+
+    //视频处理路由
+    @Value("${xc-service-manage-media.mq.routingkey-media-video}")
+    public String routingkey_media_video;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
+    //向MQ发送视频处理消息
+    private ResponseResult sendProcessVideoMsg(String mediaId){
+        Optional<MediaFile> optional = mediaFileRepository.findById(mediaId);
+        if(!optional.isPresent()){
+            return new ResponseResult(CommonCode.FAIL);
+        }
+        MediaFile mediaFile = optional.get();
+        //发送视频处理消息
+        Map<String,String> msgMap = new HashMap<>();
+        msgMap.put("mediaId",mediaId);
+        //发送的消息
+        String msg = JSON.toJSONString(msgMap);
+        try {
+            this.rabbitTemplate.convertAndSend(RabbitMQConfig.EX_MEDIA_PROCESSTASK,routingkey_media_video,msg);
+            LOGGER.info("send media process task msg:{}",msg);
+        }catch (Exception e){
+            e.printStackTrace();
+            LOGGER.info("send media process task error,msg is:{},error:{}",msg,e.getMessage());
+            return new ResponseResult(CommonCode.FAIL);
+        }
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+
     //校验文件MD5
     private boolean checkFileMd5(File mergeFile, String fileMd5) {
         if(mergeFile == null || StringUtils.isEmpty(fileMd5)){
@@ -270,17 +313,25 @@ class MediaUploadServiceImpl implements MediaUploadService {
      * 三级目录：md5
      */
     private String getFileFloderPath(String fileMd5){
-        String floderPath = uploadPath + "" + fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + fileMd5  + "/";
-        return floderPath;
+            String floderPath = uploadPath + "/" + fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + "/" +fileMd5  + "/";
+            return floderPath;
     }
 
+    /**
+     * 获取全文件路径
+     * 文件名：md5+文件扩展名
+     */
+    private String getFileFullPath(String fileMd5, String fileExt){
+        String floderPath = this.getFileFloderPath(fileMd5);
+        String filePath = floderPath + fileMd5 + "." + fileExt;
+        return filePath;
+    }
     /**
      * 获取文件路径
      * 文件名：md5+文件扩展名
      */
     private String getFilePath(String fileMd5, String fileExt){
-        String floderPath = this.getFileFloderPath(fileMd5);
-        String filePath = floderPath + fileMd5 + "." + fileExt;
+        String filePath = "/" + fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + "/" + fileMd5 + "/";
         return filePath;
     }
 }
