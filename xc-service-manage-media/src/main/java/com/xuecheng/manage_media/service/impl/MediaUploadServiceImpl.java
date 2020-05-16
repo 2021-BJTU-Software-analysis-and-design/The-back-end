@@ -117,18 +117,18 @@ class MediaUploadServiceImpl implements MediaUploadService {
      * @param mimetype 文件类型
      * @param fileExt 文件拓展名
      * @return ResponseResult
-     @Override
-     public ResponseResult mergeChunks(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt) {
-     //获取文件块路径
-     String chunkFloderPath = getChunkFloderPath(fileMd5);
-     //合并文件路径
-     String filePath = this.getFilePath(fileMd5, fileExt);
-     File mergeFile = new File(filePath);
-     //创建合并文件,如果存在则先删除再创建
-     if(mergeFile.exists()){
-     mergeFile.delete();
-     }
      */
+    @Override
+    public ResponseResult mergeChunks(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt) {
+        //获取文件块路径
+        String chunkFloderPath = getChunkFloderPath(fileMd5);
+        //合并文件路径
+        String filePath = this.getFilePath(fileMd5, fileExt);
+        File mergeFile = new File(filePath);
+        //创建合并文件,如果存在则先删除再创建
+        if(mergeFile.exists()){
+            mergeFile.delete();
+        }
         boolean newFile = false;
         try {
             newFile = mergeFile.createNewFile();
@@ -270,7 +270,7 @@ class MediaUploadServiceImpl implements MediaUploadService {
      * 三级目录：md5
      */
     private String getFileFloderPath(String fileMd5){
-        String floderPath = uploadPath + "/" + fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + "/" + fileMd5  + "/";
+        String floderPath = uploadPath + "" + fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + fileMd5  + "/";
         return floderPath;
     }
 
