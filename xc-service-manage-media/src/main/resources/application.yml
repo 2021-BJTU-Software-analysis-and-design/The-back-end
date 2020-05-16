@@ -8,6 +8,9 @@ spring:
       uri:  mongodb://root:123123@localhost:27017
       database: xc_media
 xc-service-manage-media:
+  mq:
+    queue-media-video-processor: queue_media_video_processor
+    routingkey-media-video: routingkey_media_video
   upload-location: E:/Project/XueChengOnline/xcEduUI01/xuecheng/video
 eureka:
   client:
