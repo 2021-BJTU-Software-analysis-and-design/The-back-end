@@ -1,6 +1,7 @@
 package com.xuecheng.api.course;
 
 import com.xuecheng.framework.domain.course.Teachplan;
+import com.xuecheng.framework.domain.course.TeachplanMedia;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
@@ -22,5 +23,6 @@ public interface TeachplanControllerApi {
     @ApiOperation("添加课程计划")
     public ResponseResult addTeachplan(Teachplan teachplan);
 
-
+    @ApiOperation("保存媒资信息")
+    public ResponseResult saveTeachplanMedia(TeachplanMedia teachplanMedia);
 }

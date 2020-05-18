@@ -2,6 +2,7 @@ package com.xuecheng.manage_course.controller;
 
 import com.xuecheng.api.course.TeachplanControllerApi;
 import com.xuecheng.framework.domain.course.Teachplan;
+import com.xuecheng.framework.domain.course.TeachplanMedia;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -27,5 +28,11 @@ public class TeachplanController implements TeachplanControllerApi {
     @PostMapping("/teachplan/add")
     public ResponseResult addTeachplan(@RequestBody Teachplan teachplan) {
         return teachplanService.addTeachplan(teachplan);
+    }
+
+    @Override
+    @PostMapping("/savemedia")
+    public ResponseResult saveTeachplanMedia(@RequestBody TeachplanMedia teachplanMedia) {
+        return teachplanService.saveTeachplanMedia(teachplanMedia);
     }
 }

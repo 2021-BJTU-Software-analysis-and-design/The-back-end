@@ -20,6 +20,7 @@ public enum CourseCode implements ResultCode {
     COURSE_PUBLISH_TEACHPLANISNULL(false,31007,"请先配置您的课程计划！"),
     COURSE_MEDIS_URLISNULL(false,31101,"选择的媒资文件访问地址为空！"),
     COURSE_MEDIS_NAMEISNULL(false,31102,"选择的媒资文件名称为空！"),
+    COURSE_MEDIS_TEACHPLAN_GREAD_ERROR(false,31003,"选择的媒资文件的课程计划等级不符合要求！"),
     COURSE_NOTEXIST(false,34010,"该课程不存在"),
     COURSE_NAME_ISEXIST(false,34001,"课程名称已存在");
 
