@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import javax.naming.directory.SearchResult;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -191,5 +192,60 @@ public class EsCourseService {
         queryResult.setList(list);
         queryResult.setTotal(totalHits);
         return new QueryResponseResult<>(CommonCode.SUCCESS,queryResult);
+    }
+
+    /**
+     * 根据id搜索课程发布信息
+     * @param id 课程id
+     * @return JSON数据
+     */
+    public Map<String, CoursePub> getdetail(String id) {
+        //设置索引
+        SearchRequest searchRequest = new SearchRequest(es_index);
+        //设置类型
+        searchRequest.types(es_type);
+        //创建搜索源对象
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+        //设置查询条件,根据id进行查询
+        searchSourceBuilder.query(QueryBuilders.termQuery("id",id));
+        //这里不使用source的原字段过滤,查询所有字段
+        // searchSourceBuilder.fetchSource(new String[]{"name", "grade", "charge","pic"}, newString[]{});
+
+        //设置搜索源对象
+        searchRequest.source(searchSourceBuilder);
+
+        //执行搜索
+        SearchResponse searchResponse = null;
+        try {
+            searchResponse = restHighLevelClient.search(searchRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //获取搜索结果
+        SearchHits hits = searchResponse.getHits();
+        SearchHit[] searchHits = hits.getHits(); //获取最优结果
+        Map<String,CoursePub> map = new HashMap<>();
+        for (SearchHit hit: searchHits) {
+            //从搜索结果中取值并添加到coursePub对象
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            String courseId = (String) sourceAsMap.get("id");
+            String name = (String) sourceAsMap.get("name");
+            String grade = (String) sourceAsMap.get("grade");
+            String charge = (String) sourceAsMap.get("charge");
+            String pic = (String) sourceAsMap.get("pic");
+            String description = (String) sourceAsMap.get("description");
+            String teachplan = (String) sourceAsMap.get("teachplan");
+            CoursePub coursePub = new CoursePub();
+            coursePub.setId(courseId);
+            coursePub.setName(name);
+            coursePub.setPic(pic);
+            coursePub.setGrade(grade);
+            coursePub.setTeachplan(teachplan);
+            coursePub.setDescription(description);
+            //设置map对象
+            map.put(courseId,coursePub);
+        }
+        return map;
     }
 }
