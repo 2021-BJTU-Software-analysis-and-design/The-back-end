@@ -3,6 +3,7 @@ package com.xuecheng.manage_course.service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.netflix.discovery.converters.Auto;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
@@ -23,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,16 +52,20 @@ public class CourseService {
     CoursePicRepository coursePicRepository;
     @Autowired
     CoursePubRepository coursePubRepository;
-
     @Autowired
     CourseMarketService courseMarketService;
-
     @Autowired
     TeachplanMapper teachplanMapper;
     @Autowired
     CourseMapper courseMapper;
     @Autowired
     CmsPageClient cmsPageClient;
+
+    //媒资信息相关的dao
+    @Autowired
+    TeachplanMediaRepository teachplanMediaRepository;
+    @Autowired
+    TeachplanMediaPubRepository teachplanMediaPubRepository;
 
     /**
      * 分页查询课程信息
@@ -286,13 +293,38 @@ public class CourseService {
             return new CoursePublishResult(CourseCode.COURSE_PUBLISH_TEACHPLANISNULL,null);
         }
 
+        //发布课程,添加数据到课程发布表内,由logstash采集到es
         CoursePub coursePubSave = saveCoursePub(courseId, coursePub);
 
-        //课程缓存...
+
+        //保存该课程对应的媒资信息到媒资信息发布表,由logstash采集到es
+        this.saveTeachplanMediaPub(courseId);
 
         //页面url
         String pageUrl = cmsPostPageResult.getPageUrl();
         return new CoursePublishResult(CommonCode.SUCCESS,pageUrl);
+    }
+
+
+    //保存课程计划媒资信息
+    private void saveTeachplanMediaPub(String courseId){
+        //查询课程媒资信息
+        List<TeachplanMedia> byCourseId = teachplanMediaRepository.findByCourseId(courseId);
+        if(byCourseId == null) return;  //没有查询到媒资数据则直接结束该方法
+
+        //将课程计划媒资信息储存到待索引表
+
+        //删除原有的索引信息
+        teachplanMediaPubRepository.deleteByCourseId(courseId);
+        //一个课程可能会有多个媒资信息,遍历并使用list进行储存
+        List<TeachplanMediaPub> teachplanMediaPubList = new ArrayList<>();
+        for (TeachplanMedia teachplanMedia: byCourseId) {
+            TeachplanMediaPub teachplanMediaPub = new TeachplanMediaPub();
+            BeanUtils.copyProperties(teachplanMedia, teachplanMediaPub);
+            teachplanMediaPubList.add(teachplanMediaPub);
+        }
+        //保存所有信息
+        teachplanMediaPubRepository.saveAll(teachplanMediaPubList);
     }
 
     //保存CoursePub对象
