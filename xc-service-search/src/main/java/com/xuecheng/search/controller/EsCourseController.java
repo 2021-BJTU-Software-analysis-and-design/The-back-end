@@ -2,8 +2,10 @@ package com.xuecheng.search.controller;
 
 import com.xuecheng.api.search.EsCourseConrollerApi;
 import com.xuecheng.framework.domain.course.CoursePub;
+import com.xuecheng.framework.domain.course.TeachplanMediaPub;
 import com.xuecheng.framework.domain.search.CourseSearchParam;
 import com.xuecheng.framework.model.response.QueryResponseResult;
+import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.search.service.EsCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,5 +46,25 @@ public class EsCourseController implements EsCourseConrollerApi {
     @GetMapping("/getdetail/{id}")
     public Map<String, CoursePub> getdetail(@PathVariable("id")String id) {
         return esCourseService.getdetail(id);
+    }
+
+    /**
+     * 根据课程计划id搜索发布后的媒资信息
+     * @param teachplanId
+     * @return
+     */
+    @GetMapping(value="/getmedia/{teachplanId}")
+    @Override
+    public TeachplanMediaPub getmedia(String teachplanId) {
+        //为了service的拓展性,所以我们service接收的是数组作为参数,以便后续开发查询多个ID的接口
+        String[] teachplanIds = new String[]{teachplanId};
+        //通过service查询ES获取课程媒资信息
+        QueryResponseResult<TeachplanMediaPub> mediaPubQueryResponseResult = esCourseService.getmedia(teachplanIds);
+        QueryResult<TeachplanMediaPub> queryResult = mediaPubQueryResponseResult.getQueryResult();
+        if(queryResult!=null&& queryResult.getList()!=null
+                && queryResult.getList().size()>0){
+            //返回课程计划对应课程媒资
+            return queryResult.getList().get(0);
+        } return new TeachplanMediaPub();
     }
 }
