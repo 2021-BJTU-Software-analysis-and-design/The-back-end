@@ -15,5 +15,4 @@ public interface ResultCode {
     int code();
     //提示信息
     String message();
-
 }

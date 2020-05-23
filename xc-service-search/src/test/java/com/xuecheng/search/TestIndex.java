@@ -75,7 +75,7 @@ public class TestIndex {
                 "        },\n" +
                 "        \"timestamp\": {\n" +
                 "            \"type\": \"date\",\n" +
-                "            \"format\": \"yyyy‐MM‐dd HH:mm:ss||yyyy‐MM‐dd||epoch_millis\"\n" +
+                "            \"format\": \"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis\"\n" +
                 "        }\n" +
                 "    }\n" +
                 "}",XContentType.JSON);
@@ -98,7 +98,7 @@ public class TestIndex {
         jsonMap.put("name", "spring cloud实战");
         jsonMap.put("description", "本课程主要从四个章节进行讲解： 1.微服务架构入门 2.spring cloud 基础入门 3.实战Spring Boot 4.注册中心eureka。");
         jsonMap.put("studymodel", "201001");
-        SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy‐MM‐dd HH:mm:ss");
+        SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         jsonMap.put("timestamp", dateFormat.format(new Date()));
         jsonMap.put("price", 5.6f);
         //索引请求对象

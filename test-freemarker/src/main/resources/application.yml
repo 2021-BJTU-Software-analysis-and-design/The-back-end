@@ -2,7 +2,7 @@ server:
   port: 8088 #服务端口
 spring:
   application:
-    name: test‐freemarker #指定服务名
+    name: test-freemarker #指定服务名
   freemarker:
     cache: false #关闭模板缓存，方便测试
     settings:

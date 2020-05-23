@@ -131,10 +131,13 @@ class MediaUploadServiceImpl implements MediaUploadService {
         //合并文件路径
         String fileFullPath = this.getFileFullPath(fileMd5, fileExt);
         File mergeFile = new File(fileFullPath);
+
         //创建合并文件,如果存在则先删除再创建
+        boolean delete = false;
         if(mergeFile.exists()){
-            mergeFile.delete();
+            delete = mergeFile.delete();
         }
+
         boolean newFile = false;
         try {
             newFile = mergeFile.createNewFile();
