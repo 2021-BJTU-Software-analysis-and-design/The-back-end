@@ -1,47 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="5 seconds" debug="false">
+    <contextName>logback</contextName>
+    <!-- 配置日志输出路径（注：放到服务器上后记得更改路径） -->
+    <property name="log.split.path" value="D:\\logs\\logback_demo\\" />
+    <!-- 配置日志名称 -->
+    <property name="log.path" value="logback.log" />
+    <!-- 配置切割后的debug日志输出路径 -->
+    <property name="log.debug.path" value="debug" />
+    <!-- 配置切割后的info日志输出路径 -->
+    <property name="log.info.path" value="info" />
+    <!-- 配置切割后的warn日志输出路径 -->
+    <property name="log.warn.path" value="warn" />
+    <!-- 配置切割后的error日志输出路径 -->
+    <property name="log.error.path" value="error" />
+    <!-- 配置日志文件最大数量 -->
+    <property name="log.file.max.num" value="30" />
+    <!-- 配置日志文件大小最大值 -->
+    <property name="log.file.max.size" value="50MB" />
+    <!-- 配置总日志文件大小最大值 -->
+    <property name="log.file.total.max.size" value="2GB" />
 
-<configuration>
-    <!--定义日志文件的存储地址,使用绝对路径-->
-    <property name="LOG_HOME" value="d:/logs"/>
-
-    <!-- Console 输出设置 -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- 输出到控制台 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-            <charset>utf8</charset>
+            <!--配置输出日志为彩色-->
+            <pattern>%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <!-- 按照每天生成日志文件 -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
-            <fileNamePattern>${LOG_HOME}/xc.%d{yyyy-MM-dd}.log</fileNamePattern>
+    <!-- 配置debug级别日志 -->
+    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 配置日志级别过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 配置日志存放路径 -->
+        <file>${log.split.path}${log.debug.path}/${log.path}</file>
+        <!-- 配置日志切割器 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 配置日志切割策略：每天切割 -->
+            <fileNamePattern>${log.split.path}${log.debug.path}/log_debug_back.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 配置日志数量 -->
+            <maxHistory>${log.file.max.num}</maxHistory>
+            <!-- 配置单个日志大小的最大值 -->
+            <maxFileSize>${log.file.max.size}</maxFileSize>
+            <!-- 配置总日志大小的最大值 -->
+            <totalSizeCap>${log.file.total.max.size}</totalSizeCap>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- 异步输出 -->
-    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
-        <discardingThreshold>0</discardingThreshold>
-        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
-        <queueSize>512</queueSize>
-        <!-- 添加附加的appender,最多只能添加一个 -->
-        <appender-ref ref="FILE"/>
+    <!-- 配置info级别日志 -->
+    <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 配置日志级别过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 配置日志存放路径 -->
+        <file>${log.split.path}${log.info.path}/${log.path}</file>
+        <!-- 配置日志切割器 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 配置日志切割策略：每天切割 -->
+            <fileNamePattern>${log.split.path}${log.info.path}/log_info_back.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 配置日志数量 -->
+            <maxHistory>${log.file.max.num}</maxHistory>
+            <!-- 配置单个日志大小的最大值 -->
+            <maxFileSize>${log.file.max.size}</maxFileSize>
+            <!-- 配置总日志大小的最大值 -->
+            <totalSizeCap>${log.file.total.max.size}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 配置warn级别日志 -->
+    <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 配置日志级别过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 配置日志存放路径 -->
+        <file>${log.split.path}${log.warn.path}/${log.path}</file>
+        <!-- 配置日志切割器 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 配置日志切割策略：每天切割 -->
+            <fileNamePattern>${log.split.path}${log.warn.path}/log_warn_back.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 配置日志数量 -->
+            <maxHistory>${log.file.max.num}</maxHistory>
+            <!-- 配置单个日志大小的最大值 -->
+            <maxFileSize>${log.file.max.size}</maxFileSize>
+            <!-- 配置总日志大小的最大值 -->
+            <totalSizeCap>${log.file.total.max.size}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 配置error级别日志 -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 配置日志级别过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 配置日志存放路径 -->
+        <file>${log.split.path}${log.error.path}/${log.path}</file>
+        <!-- 配置日志切割器 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 配置日志切割策略：每天切割 -->
+            <fileNamePattern>${log.split.path}${log.error.path}/log_error_back.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 配置日志数量 -->
+            <maxHistory>${log.file.max.num}</maxHistory>
+            <!-- 配置单个日志大小的最大值 -->
+            <maxFileSize>${log.file.max.size}</maxFileSize>
+            <!-- 配置总日志大小的最大值 -->
+            <totalSizeCap>${log.file.total.max.size}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
     </appender>
 
 
-    <logger name="org.apache.ibatis.cache.decorators.LoggingCache" level="DEBUG" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="org.springframework.boot" level="DEBUG"/>
+
+    <!-- 日志级别：TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
     <root level="info">
-        <!--<appender-ref ref="ASYNC"/>-->
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="CONSOLE"/>
+        <!-- 控制台日志 -->
+        <appender-ref ref="console" />
+        <!-- 按级别输出到对应文件 -->
+        <appender-ref ref="debug" />
+        <appender-ref ref="info"/>
+        <appender-ref ref="warn"/>
+        <appender-ref ref="error" />
     </root>
+
 </configuration>
