@@ -46,3 +46,4 @@ course-publish:
   pageWebPath: /course/detail/
   pagePhysicalPath: E:/Project/XueChengOnline/xcEduUI01/xuecheng/static/course/detail/
   dataUrlPre: http://localhost:31200/course/preview/model/
+
