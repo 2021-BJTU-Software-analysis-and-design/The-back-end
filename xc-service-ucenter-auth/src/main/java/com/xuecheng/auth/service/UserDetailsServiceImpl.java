@@ -29,7 +29,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //取出身份，如果身份为空说明没有认证
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //没有认证统一采用httpbasic认证，httpbasic中存储了client_id和client_secret，开始认证client_id和client_secret
+        //没有认证统一采用httpbasic认证，httpbasic中存储了client_id和client_secret
+        //开始认证client_id和client_secret
         if(authentication==null){
             ClientDetails clientDetails = clientDetailsService.loadClientByClientId(username);
             if(clientDetails!=null){
@@ -41,6 +42,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (StringUtils.isEmpty(username)) {
             return null;
         }
+
+        //设置用户的认证和权限信息
         XcUserExt userext = new XcUserExt();
         userext.setUsername("itcast");
         userext.setPassword(new BCryptPasswordEncoder().encode("123"));
