@@ -1,6 +1,7 @@
-package com.xuecheng.auth.service;
+package com.xuecheng.auth.service.impl;
 
 import com.xuecheng.framework.domain.ucenter.XcMenu;
+import com.xuecheng.framework.domain.ucenter.ext.UserJwt;
 import com.xuecheng.framework.domain.ucenter.ext.XcUserExt;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

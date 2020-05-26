@@ -1,4 +1,4 @@
-package com.xuecheng.auth.service;
+package com.xuecheng.framework.domain.ucenter.ext;
 
 import lombok.Data;
 import lombok.ToString;

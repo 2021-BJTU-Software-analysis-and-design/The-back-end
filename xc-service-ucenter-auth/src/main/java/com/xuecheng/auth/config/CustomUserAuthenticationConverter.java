@@ -1,6 +1,6 @@
 package com.xuecheng.auth.config;
 
-import com.xuecheng.auth.service.UserJwt;
+import com.xuecheng.framework.domain.ucenter.ext.UserJwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
