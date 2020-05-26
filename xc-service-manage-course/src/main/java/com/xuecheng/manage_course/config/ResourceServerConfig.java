@@ -1,5 +1,7 @@
 package com.xuecheng.manage_course.config;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -50,15 +52,23 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
       return null;
     }
   }
+
+  @Value("${oauth2.urlMatchers}")
+  String urlMatchers;
+
   //Http安全配置，对每个到达系统的http请求链接进行校验
   @Override
   public void configure(HttpSecurity http) throws Exception {
-    //所有请求必须认证通过
-    http.authorizeRequests()
-            //下边的路径放行
-            .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui",
-                    "/swagger-resources","/swagger-resources/configuration/security",
-                    "/swagger-ui.html","/webjars/**").permitAll()
-            .anyRequest().authenticated();
+    if(urlMatchers.equals("")){
+      //如果urlMatchers未指定,则所有url都需要授权后才能被访问
+      http.authorizeRequests().anyRequest().authenticated();
+    }else{
+      //放行 urlMatchers 中指定的url条目, 未指定的url仍需授权后才能访问
+      String[] split = urlMatchers.split(",");
+      http.authorizeRequests()
+              //下边的路径放行
+              .antMatchers(split).permitAll()
+              .anyRequest().authenticated();
+    }
   }
 }
