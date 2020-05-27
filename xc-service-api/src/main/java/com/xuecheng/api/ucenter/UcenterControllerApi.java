@@ -1,6 +1,6 @@
 package com.xuecheng.api.ucenter;
 
-import com.xuecheng.framework.domain.ucenter.response.ext.XcUserExt;
+import com.xuecheng.framework.domain.ucenter.ext.XcUserExt;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
