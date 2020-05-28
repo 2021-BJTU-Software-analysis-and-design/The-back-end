@@ -6,12 +6,20 @@
         <artifactId>xc-framework-parent</artifactId>
         <groupId>com.xuecheng</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../xc-framework-parent/pom.xml</relativePath>
-    </parent>
+            <relativePath>../xc-framework-parent/pom.xml</relativePath>
+        </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xc-service-manage-media</artifactId>
     <dependencies>
+        <!--devtools热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+            <scope>true</scope>
+        </dependency>
+
         <!-- 导入Eureka客户端的依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

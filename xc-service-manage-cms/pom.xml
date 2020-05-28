@@ -12,6 +12,14 @@
     <artifactId>xc-service-manage-cms</artifactId>
 
     <dependencies>
+
+        <!--devtools热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+            <scope>true</scope>
+        </dependency>
         <!-- 导入Eureka客户端的依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>    

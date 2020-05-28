@@ -13,7 +13,13 @@
     <artifactId>xc-service-ucenter-auth</artifactId>
 
     <dependencies>
-
+        <!--devtools热部署-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--            <optional>true</optional>-->
+<!--            <scope>true</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.xuecheng</groupId>
             <artifactId>xc-framework-common</artifactId>
