@@ -12,7 +12,7 @@
 
     <artifactId>xc-framework-common</artifactId>
     <dependencies>
-        <!--devtools热部署-->
+<!--        devtools热部署-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>

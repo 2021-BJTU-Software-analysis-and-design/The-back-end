@@ -1,5 +1,8 @@
 server:
   port: 22100
+devtools:
+  restart:
+    enabled: true
 spring:
   application:
     name: xc-service-base-filesystem
@@ -8,7 +11,7 @@ spring:
     mongodb:
       database: xc_fs
       uri: mongodb://root:123123@127.0.0.1:27017
-#SpringMVC上传文件配置
+  #SpringMVC上传文件配置
   servlet:
     multipart:
       #默认支持文件上传.

@@ -5,9 +5,9 @@ server:
 spring:
   devtools:
     restart:
-      enabled: true  #设置开启热部署
-      additional-paths: src/main/java #重启目录
-      exclude: WEB-INF/**
+      enabled: true #是否开启开发者工具（true/false）
+      #additional-paths: src/main/java
+      exclude: static/**,WEB-INF/view/**
   application:
     name: xc-service-ucenter-auth
   redis:
