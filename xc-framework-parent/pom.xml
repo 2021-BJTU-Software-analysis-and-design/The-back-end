@@ -36,7 +36,8 @@
         <elasticsearch.version>6.2.1</elasticsearch.version>
         <guava.version>24.0-jre</guava.version>
     </properties>
-    <!--test-->
+
+    <!--依赖版本管理-->
     <dependencyManagement>
         <dependencies>
             <dependency>

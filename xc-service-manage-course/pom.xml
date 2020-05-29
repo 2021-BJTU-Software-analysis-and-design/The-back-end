@@ -15,9 +15,10 @@
 
         <!--feign相关依赖-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>    
-            <artifactId>spring-cloud-starter-openfeign</artifactId>    
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.netflix.feign</groupId>
             <artifactId>feign-okhttp</artifactId>
@@ -35,12 +36,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
-        </dependency>
-
-        <!--导入ribbon依赖-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-ribbon</artifactId>
         </dependency>
 
         <dependency>
