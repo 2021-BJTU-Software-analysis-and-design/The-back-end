@@ -8,7 +8,7 @@ import com.xuecheng.framework.domain.filesystem.response.FileSystemCode;
 import com.xuecheng.framework.domain.filesystem.response.UploadFileResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.csource.common.MyException;
 import org.csource.fastdfs.*;
 import org.springframework.beans.factory.annotation.Autowired;
