@@ -1,6 +1,7 @@
 package com.xuecheng.auth.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xuecheng.auth.service.AuthService;
 import com.xuecheng.framework.domain.ucenter.ext.AuthToken;
 import com.xuecheng.framework.domain.ucenter.response.AuthCode;
@@ -68,6 +69,24 @@ public class AuthServiceImpl implements AuthService {
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_TOKEN_SAVEFAIL);
         }
         return authToken;
+    }
+
+    @Override
+    public String getJwt(String token) {
+        String key = "user_token:"+token;
+        String jwtInfo = stringRedisTemplate.opsForValue().get(key);
+        if(jwtInfo!=null){
+            AuthToken authToken = null;
+            try {
+                authToken = JSON.parseObject(jwtInfo, AuthToken.class);
+                String access_token = authToken.getAccess_token();
+                return access_token;
+            }catch (Exception e){
+                LOGGER.error("getUserToken from redis and execute JSON.parseObject error {}",e.getMessage());
+                return null;
+            }
+        }
+        return null;
     }
 
     //储存令牌到redis

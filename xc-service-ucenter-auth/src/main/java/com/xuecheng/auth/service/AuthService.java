@@ -12,4 +12,11 @@ public interface AuthService {
      * @return AuthToken
      */
     public AuthToken login(String username, String password, String clientId, String clientSecret);
+
+    /**
+     * 根据usertoken获取用户的accesstoken
+     * @param token usertoken
+     * @return accesstoken
+     */
+    public String getJwt(String token);
 }
