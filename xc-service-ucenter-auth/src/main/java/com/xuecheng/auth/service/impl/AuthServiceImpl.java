@@ -5,6 +5,7 @@ import com.xuecheng.auth.service.AuthService;
 import com.xuecheng.framework.domain.ucenter.ext.AuthToken;
 import com.xuecheng.framework.domain.ucenter.response.AuthCode;
 import com.xuecheng.framework.exception.ExceptionCast;
+import org.apache.commons.lang.StringUtils;
 import org.bouncycastle.util.encoders.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,21 +120,39 @@ public class AuthServiceImpl implements AuthService {
 
         Map map = null;
         try {
+            ((RestTemplate) restTemplate).setErrorHandler(new DefaultResponseErrorHandler() {
+                @Override
+                public void handleError(ClientHttpResponse response) throws IOException {
+                    // 设置 当响应400和401时照常响应数据，不要报错
+                    if (response.getRawStatusCode() != 400 && response.getRawStatusCode() != 401 ) {
+                        super.handleError(response);
+                    }
+                }
+            });
+
             //http请求spring security的申请令牌接口
-            ResponseEntity<Map> mapResponseEntity = restTemplate.exchange(authUrl, HttpMethod.POST,
-                    new HttpEntity<MultiValueMap<String, String>>(body, headers), Map.class);
+            ResponseEntity<Map> mapResponseEntity = restTemplate.exchange(authUrl, HttpMethod.POST, new
+                    HttpEntity<MultiValueMap<String, String>>(body, headers), Map.class);
             map = mapResponseEntity.getBody();
-        } catch (RestClientException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("request oauth_token_password error: {}",e.getMessage());
             e.printStackTrace();
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_APPLYTOKEN_FAIL);
         }
-        //校验获取到的jwt是否完成
-        if(map == null ||
-                map.get("access_token") == null ||
-                map.get("refresh_token") == null ||
-                map.get("jti") == null){//jti是jwt令牌的唯一标识作为用户身份令牌
+
+        if(map == null ||map.get("access_token") == null ||
+                        map.get("refresh_token") == null ||
+                        map.get("jti") == null){//jti是jwt令牌的唯一标识作为用户身份令牌
+            //获取spring security返回的错误信息
+            String error_description = (String) map.get("error_description");
+            if(StringUtils.isNotEmpty(error_description)){
+                if(error_description.equals("坏的凭证")){
+                    ExceptionCast.cast(AuthCode.AUTH_CREDENTIAL_ERROR);
+                }else if(error_description.indexOf("UserDetailsService returned null")>=0){
+                    ExceptionCast.cast(AuthCode.AUTH_ACCOUNT_NOTEXISTS);
+                }
+            }
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_APPLYTOKEN_FAIL);
         }
 
