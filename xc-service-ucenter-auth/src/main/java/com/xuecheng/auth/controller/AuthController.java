@@ -76,9 +76,27 @@ public class AuthController implements AuthControllerApi {
         return new LoginResult(CommonCode.SUCCESS,jtw_token);
     }
 
+    @PostMapping("/userlogout")
     @Override
     public ResponseResult logout() {
-        return null;
+        // 取出用户身份令牌
+        String uid = getTokenFormCookie();
+        //删除用户在redis中的身份信息
+        Boolean delToken = authService.delToken(uid);
+        //通过修改返回的response来实现用户前端收到响应后删除浏览器的cookie信息
+        clearCookie(uid);
+        if(delToken){
+            return new ResponseResult(CommonCode.SUCCESS);
+        }
+        return new ResponseResult(CommonCode.FAIL);
+    }
+
+    //清除cookie
+    private void clearCookie(String token){
+        HttpServletResponse response = ((ServletRequestAttributes)
+                RequestContextHolder.getRequestAttributes()).getResponse();
+        // 设置maxAge为实现删除cookie
+        CookieUtil.addCookie(response, cookieDomain, "/", "uid", token, 0, false);
     }
 
     @GetMapping("/userjwt")

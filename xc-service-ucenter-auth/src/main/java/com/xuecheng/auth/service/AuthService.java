@@ -19,4 +19,10 @@ public interface AuthService {
      * @return accesstoken
      */
     public String getJwt(String token);
+
+    /**
+     * 删除用户在redis中的token信息
+     * @param uid
+     */
+    public Boolean delToken(String uid);
 }

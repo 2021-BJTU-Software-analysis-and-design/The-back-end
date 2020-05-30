@@ -1,7 +1,6 @@
 package com.xuecheng.auth.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.xuecheng.auth.service.AuthService;
 import com.xuecheng.framework.domain.ucenter.ext.AuthToken;
 import com.xuecheng.framework.domain.ucenter.response.AuthCode;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.DefaultResponseErrorHandler;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -92,6 +90,18 @@ public class AuthServiceImpl implements AuthService {
             }
         }
         return null;
+    }
+
+    /**
+     * 删除指定usertoken在redis中的jwt信息
+     * @param uid usertoken
+     * @return
+     */
+    @Override
+    public Boolean delToken(String uid) {
+        String key = "user_token:" + uid;
+        Boolean delete = stringRedisTemplate.delete(key);
+        return delete;
     }
 
     //储存令牌到redis
