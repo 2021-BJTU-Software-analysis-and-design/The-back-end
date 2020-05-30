@@ -71,6 +71,11 @@ public class AuthServiceImpl implements AuthService {
         return authToken;
     }
 
+    /**
+     * 获取用户accessToken信息
+     * @param token usertoken
+     * @return accessToken
+     */
     @Override
     public String getJwt(String token) {
         String key = "user_token:"+token;
