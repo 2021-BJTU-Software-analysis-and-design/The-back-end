@@ -42,9 +42,6 @@
     <orderEntry type="library" name="Maven: com.netflix.hystrix:hystrix-core:1.5.12" level="project" />
     <orderEntry type="library" name="Maven: org.hdrhistogram:HdrHistogram:2.1.9" level="project" />
     <orderEntry type="library" name="Maven: io.github.openfeign:feign-java8:9.5.1" level="project" />
-    <orderEntry type="library" name="Maven: com.netflix.feign:feign-okhttp:8.18.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: com.netflix.feign:feign-core:8.18.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jvnet:animal-sniffer-annotation:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:2.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.0.1.RELEASE" level="project" />
