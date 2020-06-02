@@ -1,10 +1,12 @@
 package com.xuecheng.ucenter.service.impl;
 
 import com.xuecheng.framework.domain.ucenter.XcCompanyUser;
+import com.xuecheng.framework.domain.ucenter.XcMenu;
 import com.xuecheng.framework.domain.ucenter.XcUser;
 import com.xuecheng.framework.domain.ucenter.XcUserRole;
 import com.xuecheng.framework.domain.ucenter.ext.XcUserExt;
 import com.xuecheng.ucenter.dao.XcCompanyUserRepository;
+import com.xuecheng.ucenter.dao.XcMenuMapper;
 import com.xuecheng.ucenter.dao.XcUserRepository;
 import com.xuecheng.ucenter.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.ws.Action;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,6 +22,9 @@ public class UserServiceImpl implements UserService {
     //对xc_user表的相关操作
     @Autowired
     XcUserRepository xcUserRepository;
+    //对用户权限表操作的mapper
+    @Autowired
+    XcMenuMapper xcMenuMapper;
 
     //对xc_company_user表的相关操作
     @Autowired
@@ -55,6 +61,10 @@ public class UserServiceImpl implements UserService {
             String companyId = xcCompanyUser.getCompanyId();
             xcUserExt.setCompanyId(companyId);
         }
+
+        //获取用户的所有权限
+        List<XcMenu> xcMenus = xcMenuMapper.selectPermissionByUserId(xcUserId);
+        xcUserExt.setPermissions(xcMenus);
 
         //返回XcUserExt对象
         return xcUserExt;
