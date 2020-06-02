@@ -56,8 +56,7 @@ public class JwtTest {
     @Test
     public void testVerify(){
         //jwt令牌
-        String token ="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHQiOiIxIiwicm9sZXMiOiJyMDEscjAyIiwibmFtZSI6Im1ydCIsImlkIjoiMTIzIn0.Ts13yGoWf6f1rvAHclN57MFIl1oQfpsm2ZXw59DFPFHi_AIqFr-wcPEorJNznp9uUXEb1w79FnEc6wDbnfhvDejWrNP5WZbrBsnOZfsVI6PA7gQliH1QTGVrM8vDJAoL4tRYDhQhS8nC5QfbPUDzpKTW0X9OwgACDAcLhLCU614zcOyfsH_D1o307oVwZaIv8SJqcD1rSn6zwBmZ9XdLU1ScEzsPq6GLB-Rqus8CzvtZorZFxFFiM2NKNAXh-BdsrYvtRrpU4ASkTIXs2h5Fm1YyCkDEiVI_HmYB1dSmrtMb-2N1fFkXow41F_P-p4LaRuyYw8usfWn6gT6ptZNW-Q";
-        //公钥
+        String token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55SWQiOiIxIiwidXNlcnBpYyI6bnVsbCwidXNlcl9uYW1lIjoiaXRjYXN0Iiwic2NvcGUiOlsiYXBwIl0sIm5hbWUiOiJ0ZXN0MDIiLCJ1dHlwZSI6bnVsbCwiaWQiOiI0OSIsImV4cCI6MTU5MTAyNjAzNSwiYXV0aG9yaXRpZXMiOlsiY291cnNlX2Jhc2VfbGlzdCIsImNvdXJzZV9waWNfbGlzdCJdLCJqdGkiOiIyZTM5NTc2Ni1jNDAwLTQxOTgtODgyNC0wYWRmOGNhZGIyNjciLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.bibkQxBgTLy7NYHTVCY133lIa1T4Mj3zJ-wiOb8nFBwaaRTZkgZ7ubKNTkSKdy1N6ZefsBcZIH9hnesdVi9bFBCFDDbgt0jR4K_9XgjeeMgLZpRYkkXZLH5HHyv4A9MAN9jtieEghwnWsDWWChLM2m4TrGMquxXeI7xqWbGrPNTTd4Fdk3WSJXgra6aG0U-RBnn7T6Q4-v6lFFoyPGczdrj3FU4A5OKfZJdAkLR5tR2ZCOIx63AMDSkRl0tPhiqGD_qeuzPKbkyKq8_oXXsTppJCu02x5tpQWiJ0pAMVJS1CDoO1cbrnEz0ZBsoV-O-pbEjtO68dKozuMTnIg3RlLw"; //公钥
         String publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi1pGvYqLcTG2dcKhrtisQgkB90iWaCwE4OriDwCLMdiUV2NViEn+r/jMbuIFCBtnB21yWZlIPnXjzcre/8HIUJy2dMWqP9NUhzoCzwdC1I9clZRVHTpe1H0eiaQY4BLxz5EScBZdr5u4Q0hT+t6D3t7qQg1MHxLBaFy2cdHQbmz5Ly/1mmnWBHmFgjbbNG7gfaO3jRCl7RbNVUfSjb6gN+MfpyLk/iXr5S8Qhc2X07hvtm09QEk3cl14tQkZkXAUk7rAl9kgPSKoKr4MAdiYEsVNplKd4LMs4S2AC0dYrhdIX754eo6u4Ehpe6v5hSsF2d3ZpuV7nJ6JDCNxo7tU9wIDAQAB-----END PUBLIC KEY-----";
         //校验jwt
         Jwt jwt = JwtHelper.decodeAndVerify(token, new RsaVerifier(publickey));

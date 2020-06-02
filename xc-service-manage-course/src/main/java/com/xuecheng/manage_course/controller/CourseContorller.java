@@ -10,6 +10,7 @@ import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -48,6 +49,7 @@ public class CourseContorller implements CourseControllerApi {
      * @param pic 图片文件id
      * @return
      */
+
     @Override
     @PostMapping("/coursepic/add")
     public ResponseResult saveCoursePic(@RequestParam("courseId") String courseId, @RequestParam("pic") String pic) {
@@ -59,6 +61,7 @@ public class CourseContorller implements CourseControllerApi {
      * @param courseId
      * @return 由于这里每个课程只有一个图片，所以只返回一个 CoursePic 对象
      */
+    @PreAuthorize("hasAuthority('course_pic_list')")
     @Override
     @GetMapping("/coursepic/get/{courseId}")
     public CoursePic getCoursePic(@PathVariable("courseId") String courseId) {
@@ -70,6 +73,8 @@ public class CourseContorller implements CourseControllerApi {
      * @param courseId
      * @return
      */
+
+    @PreAuthorize("hasAuthority('course_pic_delete')")
     @Override
     @DeleteMapping("/coursepic/delete")
     public ResponseResult deleteCoursePic(@RequestParam("courseId") String courseId) {
