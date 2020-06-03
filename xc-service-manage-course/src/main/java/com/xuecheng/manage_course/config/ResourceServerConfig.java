@@ -64,11 +64,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
       http.authorizeRequests().anyRequest().authenticated();
     }else{
       //放行 urlMatchers 中指定的url条目, 未指定的url仍需授权后才能访问
-      String[] split = urlMatchers.split(",");
-      http.authorizeRequests()
-              //下边的路径放行
-              .antMatchers(split).permitAll()
-              .anyRequest().authenticated();
+      if(urlMatchers != null){
+        String[] split = urlMatchers.split(",");
+        http.authorizeRequests()
+                //下边的路径放行
+                .antMatchers(split).permitAll()
+                .anyRequest().authenticated();
+      }
     }
   }
 }
