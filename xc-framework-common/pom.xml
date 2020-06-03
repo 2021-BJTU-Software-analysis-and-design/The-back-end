@@ -12,7 +12,14 @@
 
     <artifactId>xc-framework-common</artifactId>
     <dependencies>
-<!--        devtools热部署-->
+        <!--远程调用-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <optional>true</optional>
+            <version>2.0.1.RELEASE</version>
+        </dependency>
+        <!--  devtools热部署-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
