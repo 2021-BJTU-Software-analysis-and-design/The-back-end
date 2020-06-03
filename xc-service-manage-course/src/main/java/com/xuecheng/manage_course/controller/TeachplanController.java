@@ -10,6 +10,7 @@ import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.service.CourseService;
 import com.xuecheng.manage_course.service.TeachplanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ public class TeachplanController implements TeachplanControllerApi {
     @Autowired
     TeachplanService teachplanService;
 
+    @PreAuthorize("hasAuthority('course_teachplan_list')")
     @GetMapping("/teachplan/list/{courseId}")
     @Override
     public TeachplanNode findTeachplanList(@PathVariable("courseId") String courseId) {

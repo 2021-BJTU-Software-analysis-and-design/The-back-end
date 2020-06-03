@@ -53,25 +53,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         XcUserExt userext = userClient.getUserext(username);
         if(userext == null) return null; //如果获取到的用信息为空,则返回null,spring security则会抛出异常
 
-        //设置用户的认证和权限信息
-        userext.setUsername("itcast");
-        userext.setPassword(new BCryptPasswordEncoder().encode("123"));
-        userext.setPermissions(new ArrayList<XcMenu>());  //这里授权部分还没完成,所以先填写静态的
-
-        if(userext == null){
-            return null;
-        }
-
         //从数据库查询用户正确的密码，Spring Security会去比对输入密码的正确性
         String password = userext.getPassword();
+        //指定用户的权限,从数据库中获取
+        List<XcMenu> permissions = userext.getPermissions();
+        if(permissions == null) {
+            permissions = new ArrayList<>();
+        }
 
-        //指定用户的权限，这里暂时硬编码
-        List<String> permissionList = new ArrayList<>();
-        permissionList.add("course_base_list");
-        permissionList.add("course_pic_list");
-
+        List<String> permissionsCode = new ArrayList<>();
+        //遍历权限对象中的code字段
+        permissions.forEach(item -> permissionsCode.add(item.getCode()));
         //将权限串中间以逗号分隔
-        String user_permission_string = StringUtils.join(permissionList.toArray(), ",");
+        String user_permission_string = StringUtils.join(permissionsCode.toArray(), ",");
 
         //设置用户信息到userDetails对象
         UserJwt userDetails = new UserJwt(
