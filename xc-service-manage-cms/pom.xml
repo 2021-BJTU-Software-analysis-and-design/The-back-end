@@ -12,6 +12,14 @@
     <artifactId>xc-service-manage-cms</artifactId>
 
     <dependencies>
+
+
+        <!--feign相关依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
         <!--oauth2-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
