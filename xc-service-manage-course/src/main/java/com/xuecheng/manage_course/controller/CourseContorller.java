@@ -3,11 +3,14 @@ package com.xuecheng.manage_course.controller;
 import com.xuecheng.api.course.CourseControllerApi;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CoursePic;
+import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.CoursePublishResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
+import com.xuecheng.framework.utils.XcOauth2Util;
+import com.xuecheng.framework.web.BaseController;
 import com.xuecheng.manage_course.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,14 +18,42 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/course")
-public class CourseContorller implements CourseControllerApi {
+public class CourseContorller extends BaseController implements CourseControllerApi {
     @Autowired
     CourseService courseService;
 
+    /**
+     * 查询所有课程信息
+     * @param page 页码
+     * @param size 数量
+     * @param courseListRequest 查询参数
+     * @return QueryResponseResult
+     */
     @Override
     @GetMapping("/coursebase/list/{page}/{size}")
     public QueryResponseResult findCourseList(@PathVariable("page") int page, @PathVariable("size") int size, CourseListRequest courseListRequest) {
         return courseService.findCourseList(page,size,courseListRequest);
+    }
+
+    /**
+     * 查询指定公司下的所有课程
+     * @param page 页码
+     * @param size 数量
+     * @param courseListRequest 查询参数
+     * @return QueryResponseResult
+     */
+    @GetMapping("/coursebase/company/list/{page}/{size}")
+    @Override
+    public QueryResponseResult findCourseListByCompany(
+            @PathVariable("page") int page,
+            @PathVariable("size") int size,
+            CourseListRequest courseListRequest
+    ){
+        //调用工具类取出用户信息
+        XcOauth2Util xcOauth2Util = new XcOauth2Util();
+        XcOauth2Util.UserJwt userJwt = xcOauth2Util.getUserJwtFromHeader(request);
+        String companyId = userJwt.getCompanyId();
+        return courseService.findCourseListByCompany(companyId, page, size, courseListRequest);
     }
 
     @Override
@@ -113,6 +144,5 @@ public class CourseContorller implements CourseControllerApi {
     public CoursePublishResult CoursePublish(@PathVariable("id") String courseId) {
         return courseService.coursePublish(courseId);
     }
-
 
 }

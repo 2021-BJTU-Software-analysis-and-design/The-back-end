@@ -8,6 +8,7 @@ import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.domain.course.*;
+import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
@@ -84,6 +85,28 @@ public class CourseService {
         queryResult.setTotal(courseList.getTotal());
         return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
     }
+
+    /**
+     * 分页查询指定公司下的课程信息
+     */
+    public QueryResponseResult findCourseListByCompany(String companyId ,int pageNum, int size, CourseListRequest courseListRequest){
+        if(pageNum<=0){
+            pageNum = 0;
+        }
+        if(size<=0){
+            size = 20;
+        }
+        PageHelper.startPage(pageNum,size);  //设置分页参数
+
+        //设置公司信息到查询条件内
+        courseListRequest.setCompanyId(companyId);
+        Page<CourseInfo> courseList = courseMapper.findCourseListByCompany(courseListRequest);
+        QueryResult queryResult = new QueryResult();
+        queryResult.setList(courseList.getResult());
+        queryResult.setTotal(courseList.getTotal());
+        return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+    }
+
 
     /**
      * 根绝课程id查询课程信息

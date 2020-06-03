@@ -2,6 +2,7 @@ package com.xuecheng.api.course;
 
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CoursePic;
+import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.CoursePublishResult;
@@ -15,10 +16,17 @@ import io.swagger.annotations.ApiOperation;
  */
 @Api(value="课程管理API",description = "用于对课程的增删查改")
     public interface CourseControllerApi {
-        @ApiOperation("分页查询课程列表1")
-        public QueryResponseResult findCourseList(int page, int size, CourseListRequest courseListRequest);
+    @ApiOperation("分页查询课程列表1")
+    public QueryResponseResult findCourseList(int page, int size, CourseListRequest courseListRequest);
 
-        @ApiOperation("新增课程")
+    @ApiOperation("查询指定公司下的所有课程")
+    public QueryResponseResult<CourseInfo> findCourseListByCompany(
+            int page,
+            int size,
+            CourseListRequest courseListRequest
+    );
+
+    @ApiOperation("新增课程")
     public ResponseResult saveCourse(CourseBase courseBase);
 
     @ApiOperation("根据课程id查询课程信息")

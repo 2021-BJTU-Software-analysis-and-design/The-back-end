@@ -21,4 +21,11 @@ public interface CourseMapper {
     */
    Page<CourseBase> findCourseList(CourseListRequest courseListRequest);
 
+   /**
+    * 分页查询指定公司下的课程数据
+    * @param courseListRequest 查询条件
+    * @return
+    */
+   Page<CourseInfo> findCourseListByCompany(CourseListRequest courseListRequest);
+
 }
