@@ -18,6 +18,8 @@ spring:
     username: guest
     password: guest
     virtual-host: /
+oauth2:
+  urlMatchers: /v2/api-docs,/swagger-resources/configuration/ui,/swagger-resources,/swagger-resources/configuration/security,/swagger-ui.html,/webjars/**,/course/coursepic/get/*
 
 eureka:
   client:
