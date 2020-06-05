@@ -1,6 +1,7 @@
 package com.xuecheng.manage_cms.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
@@ -11,8 +12,10 @@ import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.domain.cms.response.CmsSizeResult;
+import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.*;
+import com.xuecheng.manage_cms.client.CourseManageClient;
 import com.xuecheng.manage_cms.config.RabbitmqConfig;
 import com.xuecheng.manage_cms.dao.CmsPageRepository;
 import com.xuecheng.manage_cms.dao.CmsSiteRepository;
@@ -32,11 +35,18 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -66,6 +76,9 @@ public class PageService {
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    CourseManageClient courseManageClient;
 
     /**
      * 页面发布
@@ -226,18 +239,22 @@ public class PageService {
         //查询页面信息
         CmsPageResult cmsPageResult = this.cmsPageQueryById(pageId);
         CmsPage cmsPage = cmsPageResult.getCmsPage();
+
         //页面不存在
         if(cmsPage == null){
             ExceptionCast.cast(CmsCode.CMS_PAGE_NOT_EXISTS);
         }
-        //取出dataUrl
-        String dataUrl = cmsPage.getDataUrl();
-        if(StringUtils.isEmpty(dataUrl)){
-            ExceptionCast.cast(CmsCode.CMS_GENRATEHTML_DATAURL_IS_NULL);
+        String cmsPageName = cmsPage.getPageName();
+        if(cmsPageName == null){
+            ExceptionCast.cast(CmsCode.CMS_PAGE_NAME_NOT_EXISTS);
         }
-        //发送请求获取模型数据
-        ResponseEntity<Map> forEntity = restTemplate.getForEntity(dataUrl,Map.class);
-        Map body = forEntity.getBody();
+        String[] pageNameSplit = cmsPageName.split("\\.");
+        String courseId = pageNameSplit[0];
+        CourseView courseView = courseManageClient.courseView(courseId);
+        Map body = JSONObject.parseObject(JSONObject.toJSONString(courseView), Map.class);
+//        ResponseEntity<Map> forEntity = restTemplate.getForEntity(dataUrl,Map.class);
+//        Map body = forEntity.getBody();
+//        courseManageClient.courseView(cmsPage.)
         return body;
     }
 

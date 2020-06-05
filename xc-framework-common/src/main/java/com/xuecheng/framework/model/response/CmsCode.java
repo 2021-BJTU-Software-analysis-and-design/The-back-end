@@ -13,7 +13,8 @@ public enum CmsCode implements ResultCode {
     CMS_GENRATEHTML_TEMPLATE_IS_NULL(false,24005,"页面模板为空"),
     CMS_GENRATEHTML_HTML_IS_NULL(false,24006,"生成的静态html为空"),
     CMS_GENRATEHTML_SAVE_HTML_ERROR(false,24007,"保存静态html出错"),
-    CMS_GENRATEHTML_PERVIEW_IS_NULL(false,24008,"预览页面为空");
+    CMS_GENRATEHTML_PERVIEW_IS_NULL(false,24008,"预览页面为空"),
+    CMS_PAGE_NAME_NOT_EXISTS(false,24009,"页面名称不存在");
 
 
 //    CMS_ADDPAGE_PARAM_ERROR(false,24002,"提交的参数有误！");
