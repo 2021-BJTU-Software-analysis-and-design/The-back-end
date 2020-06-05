@@ -29,6 +29,10 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:2.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.0.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.diffplug.guava:guava-cache:19.0.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.diffplug.guava:guava-core:19.0.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.diffplug.guava:guava-collect:19.0.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.diffplug.guava:guava-concurrent:19.0.0" level="project" />
     <orderEntry type="module" module-name="xc-framework-utils" />
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-logging:2.0.1.RELEASE" level="project" />
