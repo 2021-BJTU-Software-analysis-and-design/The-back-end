@@ -12,6 +12,7 @@
     <artifactId>xc-framework-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <properties>
         <java.version>1.8</java.version>
         <tomcat.version>8.5.28</tomcat.version>
