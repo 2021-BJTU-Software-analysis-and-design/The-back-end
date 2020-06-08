@@ -13,7 +13,7 @@ public interface TaskService {
      * @param updateTime 上次更新时间
      * @return 任务列表
      */
-    public List<XcTask> findTaskList(int n, Date updateTime);
+    List<XcTask> findTaskList(int n, Date updateTime);
 
     /**
      * 发送添加选课消息
@@ -21,7 +21,7 @@ public interface TaskService {
      * @param ex 交换机
      * @param routingKey 路由key
      */
-    public void publishChooseMsg(XcTask xcTask,String ex,String routingKey);
+    void publishChooseMsg(XcTask xcTask,String ex,String routingKey);
 
     /**
      * 使用乐观锁方式校验任务id和版本号是否匹配
@@ -29,5 +29,7 @@ public interface TaskService {
      * @param version 任务的版本号
      * @return 返回结果
      */
-    public int getTask(String taskId,int version);
+    int getTask(String taskId,int version);
+
+    void finishTask(String taskId);
 }

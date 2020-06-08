@@ -30,9 +30,7 @@ public class ChooseCourseTask {
     LearningService learningService;
     @Autowired
     RabbitTemplate rabbitTemplate;
-    /**
-     * 接收选课任务
-     */
+
     /**
      * 接收选课任务
      */
@@ -40,7 +38,6 @@ public class ChooseCourseTask {
     public void receiveChoosecourseTask(XcTask xcTask, Message message, Channel channel) throws
             IOException {
         LOGGER.info("receive choose course task,taskId:{}", xcTask.getId());
-
         //接收到 的消息id
         String id = xcTask.getId();
         //添加选课
