@@ -22,6 +22,7 @@
         </dependency>
     </dependencies>
 
+    
     <!--项目打包-->
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
