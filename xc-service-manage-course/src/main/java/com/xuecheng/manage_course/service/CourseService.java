@@ -61,9 +61,9 @@ public class CourseService {
     TeachplanMapper teachplanMapper;
     @Autowired
     CourseMapper courseMapper;
+    //
     @Autowired
     CmsPageClient cmsPageClient;
-
     //媒资信息相关的dao
     @Autowired
     TeachplanMediaRepository teachplanMediaRepository;
@@ -226,6 +226,7 @@ public class CourseService {
      */
     public CourseView getCourseView(String courseId) {
         CourseView courseView = new CourseView();
+
         //获取课程基本信息
         Optional<CourseBase> courseBaseOptional = courseBaseRepository.findById(courseId);
         if(courseBaseOptional.isPresent()){
@@ -248,6 +249,7 @@ public class CourseService {
         TeachplanNode teachplanNode = teachplanMapper.selectList(courseId);
         courseView.setTeachplanNode(teachplanNode);
         return courseView;
+
     }
 
     //根据id查询课程基本信息
@@ -415,7 +417,6 @@ public class CourseService {
         }
         return coursePub;
     }
-
 
     //拼装页面信息
     private CmsPage setPageInfo(String courseId){

@@ -98,7 +98,6 @@ public class PageService {
         if(StringUtils.isEmpty(pageHtml)){
             ExceptionCast.cast(CmsCode.CMS_GENRATEHTML_HTML_IS_NULL);
         }
-
         //保存静态化文件
         CmsPage cmsPage = this.saveHtml(pageId, pageHtml);
         //发送消息
@@ -130,7 +129,6 @@ public class PageService {
         if(!optional.isPresent()){
             ExceptionCast.cast(CmsCode.CMS_PAGE_NOT_EXISTS);
         }
-
         CmsPage cmsPage = optional.get();
         //储存之前先删除
         String htmlFileId = cmsPage.getHtmlFileId();
@@ -153,7 +151,6 @@ public class PageService {
         return cmsPage;
     }
 
-
     /**
      * 页面静态化
      * @param pageId
@@ -164,7 +161,7 @@ public class PageService {
     public String getPageHtml(String pageId) throws IOException, TemplateException {
         //获取页面模型数据
         Map modelByPageId = this.getModelByPageId(pageId);
-        if(modelByPageId == null){
+        if(modelByPageId.isEmpty()){
             //获取页面模型数据为空
             ExceptionCast.cast(CmsCode.CMS_GENRATEHTML_DATA_IS_NULL);
         }
@@ -191,7 +188,6 @@ public class PageService {
         stringTemplateLoader.putTemplate("template",template);
         //配置模板加载器
         configuration.setTemplateLoader(stringTemplateLoader);
-
         //获取模板
         Template template1 = configuration.getTemplate("template");
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template1, model);
@@ -239,22 +235,18 @@ public class PageService {
         //查询页面信息
         CmsPageResult cmsPageResult = this.cmsPageQueryById(pageId);
         CmsPage cmsPage = cmsPageResult.getCmsPage();
-
         //页面不存在
         if(cmsPage == null){
             ExceptionCast.cast(CmsCode.CMS_PAGE_NOT_EXISTS);
         }
-        String cmsPageName = cmsPage.getPageName();
-        if(cmsPageName == null){
-            ExceptionCast.cast(CmsCode.CMS_PAGE_NAME_NOT_EXISTS);
+        //取出dataUrl
+        String dataUrl = cmsPage.getDataUrl();
+        if(StringUtils.isEmpty(dataUrl)){
+            ExceptionCast.cast(CmsCode.CMS_GENRATEHTML_DATAURL_IS_NULL);
         }
-        String[] pageNameSplit = cmsPageName.split("\\.");
-        String courseId = pageNameSplit[0];
-        CourseView courseView = courseManageClient.courseView(courseId);
-        Map body = JSONObject.parseObject(JSONObject.toJSONString(courseView), Map.class);
-//        ResponseEntity<Map> forEntity = restTemplate.getForEntity(dataUrl,Map.class);
-//        Map body = forEntity.getBody();
-//        courseManageClient.courseView(cmsPage.)
+        //发送请求获取模型数据
+        ResponseEntity<Map> forEntity = restTemplate.getForEntity(dataUrl,Map.class);
+        Map body = forEntity.getBody();
         return body;
     }
 

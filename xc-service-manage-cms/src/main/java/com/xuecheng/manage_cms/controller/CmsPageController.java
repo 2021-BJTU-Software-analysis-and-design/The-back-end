@@ -21,6 +21,7 @@ import java.util.List;
 
 @RequestMapping("/cms/page")
 public class CmsPageController implements CmsPageControllerApi {
+
     @Autowired
     PageService pageService;
 
@@ -29,7 +30,7 @@ public class CmsPageController implements CmsPageControllerApi {
      * @param page
      * @param size
      * @param queryPageRequest
-     * @return
+     * @return CmsPageResult
      */
     @Override
     @GetMapping("/list/{page}/{size}")
@@ -40,7 +41,7 @@ public class CmsPageController implements CmsPageControllerApi {
     /**
      * 添加页面
      * @param cmsPage
-     * @return
+     * @return CmsPageResult
      */
     @Override
     @PostMapping("/add")
@@ -51,7 +52,7 @@ public class CmsPageController implements CmsPageControllerApi {
     /**
      * 保存页面
      * @param cmsPage
-     * @return
+     * @return CmsPageResult
      */
     @Override
     @PostMapping("/save")
@@ -61,8 +62,7 @@ public class CmsPageController implements CmsPageControllerApi {
 
     /**
      * 根据id查询页面数据
-     * @param idstatus
-     * @return
+     * @return CmsPageResult
      */
     @GetMapping("/get/{id}")
     @Override

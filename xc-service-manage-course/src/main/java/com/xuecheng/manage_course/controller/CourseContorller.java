@@ -80,7 +80,6 @@ public class CourseContorller extends BaseController implements CourseController
      * @param pic 图片文件id
      * @return
      */
-
     @Override
     @PostMapping("/coursepic/add")
     public ResponseResult saveCoursePic(@RequestParam("courseId") String courseId, @RequestParam("pic") String pic) {
@@ -92,7 +91,7 @@ public class CourseContorller extends BaseController implements CourseController
      * @param courseId
      * @return 由于这里每个课程只有一个图片，所以只返回一个 CoursePic 对象
      */
-    @PreAuthorize("hasAuthority('course_pic_list')")
+//    @PreAuthorize("hasAuthority('course_pic_list')")
     @Override
     @GetMapping("/coursepic/get/{courseId}")
     public CoursePic getCoursePic(@PathVariable("courseId") String courseId) {
@@ -105,7 +104,7 @@ public class CourseContorller extends BaseController implements CourseController
      * @return
      */
 
-    @PreAuthorize("hasAuthority('course_pic_delete')")
+//    @PreAuthorize("hasAuthority('course_pic_delete')")
     @Override
     @DeleteMapping("/coursepic/delete")
     public ResponseResult deleteCoursePic(@RequestParam("courseId") String courseId) {

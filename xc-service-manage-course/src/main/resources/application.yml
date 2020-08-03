@@ -19,7 +19,7 @@ spring:
     minEvictableIdleTimeMillis: 300000  #连接在连接池的最小生存时间（毫秒）
 
 oauth2:
-  urlMatchers: /v2/api-docs,/swagger-resources/configuration/ui,/swagger-resources,/swagger-resources/configuration/security,/swagger-ui.html,/webjars/**,/course/coursepic/get/*
+  urlMatchers: /course/preview/model/*,/v2/api-docs,/swagger-resources/configuration/ui,/swagger-resources,/swagger-resources/configuration/security,/swagger-ui.html,/webjars/**,/course/coursepic/get/*
 
 pagehelper:
     helper-dialect: mysql

@@ -46,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+
     /**
      * 用户登陆认证实现
      * @param username 用户名

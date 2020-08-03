@@ -19,7 +19,7 @@ public class TeachplanController implements TeachplanControllerApi {
     @Autowired
     TeachplanService teachplanService;
 
-    @PreAuthorize("hasAuthority('course_teachplan_list')")
+//    @PreAuthorize("hasAuthority('course_teachplan_list')")
     @GetMapping("/teachplan/list/{courseId}")
     @Override
     public TeachplanNode findTeachplanList(@PathVariable("courseId") String courseId) {
