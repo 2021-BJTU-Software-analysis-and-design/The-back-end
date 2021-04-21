@@ -2,31 +2,32 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="xc-service-manage-course" />
-        <module name="xc-service-ucenter" />
         <module name="xc-framework-model" />
+        <module name="test-fastdfs" />
+        <module name="xc-govern-gateway" />
+        <module name="xc-service-ucenter" />
+        <module name="xc-framework-common" />
         <module name="xc-framework-utils" />
-        <module name="xc-service-api" />
+        <module name="xc-service-manage-course" />
+        <module name="test-rabbitmq-producer" />
         <module name="test-rabbitmq-consumer" />
-        <module name="xc-service-base-filesystem" />
+        <module name="xc-service-learning" />
         <module name="xc-service-search" />
         <module name="xc-service-manage-order" />
-        <module name="test-rabbitmq-producer" />
-        <module name="xc-framework-common" />
-        <module name="xc-service-learning" />
-        <module name="xc-service-ucenter-auth" />
+        <module name="test-freemarker" />
         <module name="xc-govern-center" />
-        <module name="test-fastdfs" />
+        <module name="xc-service-ucenter-auth" />
+        <module name="xc-service-base-filesystem" />
+        <module name="xc-service-manage-cms-client" />
+        <module name="xc-service-api" />
         <module name="xc-service-manage-media" />
         <module name="xc-service-manage-cms" />
-        <module name="xc-govern-gateway" />
-        <module name="xc-service-manage-cms-client" />
         <module name="xc-service-manage-media-processor" />
-        <module name="test-freemarker" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
