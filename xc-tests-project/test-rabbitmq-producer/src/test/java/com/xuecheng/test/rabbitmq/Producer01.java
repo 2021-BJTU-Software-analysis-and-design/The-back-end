@@ -41,7 +41,7 @@ public class Producer01 {
              * param4:队列不再使用时是否自动删除此队列
              * param5:队列参数
              */
-            channel.queueDeclare(QUEUE,true,false,false,null);
+            channel.queueDeclare(QUEUE, true, false, false, null);
             String message = "hello world 小明" + System.currentTimeMillis();
 
             /**
@@ -54,17 +54,17 @@ public class Producer01 {
              * 这里没有指定交换机，消息将发送给默认交换机，每个队列也会绑定那个默认的交换机，但是不能显示绑定或解除绑定
              * 默认的交换机，routingKey等于队列名称
              */
-            channel.basicPublish("",QUEUE,null,message.getBytes());
+            channel.basicPublish("", QUEUE, null, message.getBytes());
             System.out.println("Send Message is: ' " + message + " '");
 
-        }catch ( Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             //关闭通道和连接
-            if(channel != null){
+            if (channel != null) {
                 channel.close();
             }
-            if(channel != null){
+            if (channel != null) {
                 connection.close();
             }
         }

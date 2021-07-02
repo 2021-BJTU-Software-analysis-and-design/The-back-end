@@ -1,10 +1,12 @@
 package com.xuecheng.auth.service.impl;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import com.xuecheng.auth.client.UserClient;
 import com.xuecheng.framework.domain.ucenter.XcMenu;
+import com.xuecheng.framework.domain.ucenter.XcUser;
 import com.xuecheng.framework.domain.ucenter.ext.UserJwt;
 import com.xuecheng.framework.domain.ucenter.ext.XcUserExt;
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -38,14 +40,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //没有认证统一采用httpbasic认证，httpbasic中存储了client_id和client_secret
         //开始认证client_id和client_secret
         if(authentication==null){
-            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(username);
+             ClientDetails clientDetails = clientDetailsService.loadClientByClientId(username);
             if(clientDetails!=null){
                 //密码
                 String clientSecret = clientDetails.getClientSecret();
                 return new User(username,clientSecret,AuthorityUtils.commaSeparatedStringToAuthorityList(""));
             }
         }
-        if (StringUtils.isEmpty(username)) {
+        if (org.apache.commons.lang.StringUtils.isEmpty(username)) {
             return null;
         }
 
@@ -65,7 +67,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //遍历权限对象中的code字段
         permissions.forEach(item -> permissionsCode.add(item.getCode()));
         //将权限串中间以逗号分隔
-        String user_permission_string = StringUtils.join(permissionsCode.toArray(), ",");
+        String user_permission_string = org.apache.commons.lang.StringUtils.join(permissionsCode.toArray(), ",");
 
         //设置用户信息到userDetails对象
         UserJwt userDetails = new UserJwt(

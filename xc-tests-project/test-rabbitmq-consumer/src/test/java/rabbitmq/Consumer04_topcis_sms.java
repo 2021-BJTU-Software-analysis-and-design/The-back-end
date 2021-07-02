@@ -36,12 +36,12 @@ public class Consumer04_topcis_sms {
         /**
          * 声明交换机
          */
-        channel.exchangeDeclare(EXCHANGE_TOPICS_INFORM,BuiltinExchangeType.TOPIC);
+        channel.exchangeDeclare(EXCHANGE_TOPICS_INFORM, BuiltinExchangeType.TOPIC);
 
         /**
          * 绑定交换机
          */
-        channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_TOPICS_INFORM,ROUTINGKEY_INFORM_SMS);
+        channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_TOPICS_INFORM, ROUTINGKEY_INFORM_SMS);
 
         //定义消费方法
         DefaultConsumer defaultConsumer = new DefaultConsumer(channel) {

@@ -16,7 +16,12 @@ public enum UcenterCode implements ResultCode {
     UCENTER_VERIFYCODE_NONE(false,23003,"请输入验证码！"),
     UCENTER_ACCOUNT_NOTEXISTS(false,23004,"账号不存在！"),
     UCENTER_CREDENTIAL_ERROR(false,23005,"账号或密码错误！"),
-    UCENTER_LOGIN_ERROR(false,23006,"登陆过程出现异常请尝试重新操作！");
+    UCENTER_LOGIN_ERROR(false,23006,"登陆过程出现异常请尝试重新操作！"),
+    UCENTER_REGISTER_USERNAME_EXIST(false,23007,"用户名已存在"),
+    UCENTER_REGISTER_PASSWORD_INCONFORMITY(false,23008,"输入密码不一致"),
+    UCENTER_REGISTER_EMAIL_EXIST(false,23009,"邮箱已存在"),
+    UCENTER_SUCCESS(true,10000,"成功");
+
 
     //操作代码
     @ApiModelProperty(value = "操作是否成功", example = "true", required = true)

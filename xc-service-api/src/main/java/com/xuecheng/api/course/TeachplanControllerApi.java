@@ -25,4 +25,8 @@ public interface TeachplanControllerApi {
 
     @ApiOperation("保存媒资信息")
     public ResponseResult saveTeachplanMedia(TeachplanMedia teachplanMedia);
+
+    @ApiOperation("删除课程计划")
+    public ResponseResult deleteTeachplan(String id);
+
 }

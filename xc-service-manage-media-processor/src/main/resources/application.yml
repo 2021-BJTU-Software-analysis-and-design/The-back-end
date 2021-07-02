@@ -6,7 +6,7 @@ spring:
     name: xc-service-manage-media-processor
   data:
     mongodb:
-      uri:  mongodb://root:123123@localhost:27017
+      uri:  mongodb://localhost:27017
       database: xc_media
   #rabbitmq配置
   rabbitmq:
@@ -20,8 +20,8 @@ xc-service-manage-media:
   mq:
     queue-media-video-processor: queue_media_video_processor
     routingkey-media-video: routingkey_media_video
-  video-location: E:/Project/XueChengOnline/xcEduUI01/xuecheng/video/
-  ffmpeg-path: D:/soft/ffmpeg-20200315-c467328-win64-static/bin/ffmpeg.exe
+  video-location: D:/java_program/video
+  ffmpeg-path: D:/java_program/ffmpeg-N-102630-g51f1194eda-win64-gpl/bin/ffmpeg.exe
 
 
 eureka:
@@ -29,8 +29,8 @@ eureka:
     registerWithEureka: true #服务注册开关
     fetchRegistry: true #服务发现开关
     serviceUrl: #Eureka客户端与Eureka服务端进行交互的地址，多个中间用逗号分隔
-      defaultZone: ${EUREKA_SERVER:http://localhost:50101/eureka/}
+      defaultZone: ${EUREKA_SERVER:http://192.144.238.116:50101/eureka/} #${EUREKA_SERVER:http://localhost:50101/eureka/}
   instance:
     prefer-ip-address:  true  #将自己的ip地址注册到Eureka服务中
-    ip-address: ${IP_ADDRESS:127.0.0.1}
+    #ip-address: ${IP_ADDRESS:127.0.0.1}
     instance-id: ${spring.application.name}:${server.port} #指定实例id

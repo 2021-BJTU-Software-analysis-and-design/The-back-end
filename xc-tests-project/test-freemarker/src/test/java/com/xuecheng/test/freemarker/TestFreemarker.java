@@ -34,8 +34,8 @@ public class TestFreemarker {
         Configuration configuration = new Configuration(Configuration.getVersion());
         //设置模板路径
         String classPath = this.getClass().getResource("/").getPath();
-        classPath = java.net.URLDecoder.decode(classPath,"utf-8"); //路径包含中文需要进行转码
-        configuration.setDirectoryForTemplateLoading(new File(classPath +"/templates"));
+        classPath = java.net.URLDecoder.decode(classPath, "utf-8"); //路径包含中文需要进行转码
+        configuration.setDirectoryForTemplateLoading(new File(classPath + "/templates"));
         //设置字符集
         configuration.setDefaultEncoding("utf-8");
         //加载模板
@@ -51,8 +51,8 @@ public class TestFreemarker {
         int copy = IOUtils.copy(inputStream, fileOutputStream);
     }
 
-    public Map getMap(){
-        Map<String,Object> map = new HashMap<>();
+    public Map getMap() {
+        Map<String, Object> map = new HashMap<>();
         map.put("name", "黑马程序员");
         //学生对象1
         Student stu1 = new Student();
@@ -71,13 +71,13 @@ public class TestFreemarker {
         stus.add(stu1);
         stus.add(stu2);
         //向数据模型中放入List
-        map.put("stus",stus);
+        map.put("stus", stus);
         //准备map数据
         HashMap<Object, Object> stuMap = new HashMap<>();
-        stuMap.put("stu1",stu1);
-        stuMap.put("stu2",stu2);
+        stuMap.put("stu1", stu1);
+        stuMap.put("stu2", stu2);
         //像数据模型内放数据
-        map.put("stu1",stu1);
+        map.put("stu1", stu1);
         //向数据模型放入stuMap
         map.put("stuMap", stuMap);
         return map;

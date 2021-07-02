@@ -8,8 +8,8 @@ spring:
     druid:
       url: jdbc:mysql://localhost:3306/xc_order?characterEncoding=utf-8
       username: root
-      password: 123123
-      driverClassName: com.mysql.jdbc.Driver
+      password: 123456
+      driverClassName: com.mysql.cj.jdbc.Driver
       initialSize: 5  #初始建立连接数量
       minIdle: 5  #最小连接数量
       maxActive: 20 #最大连接数量
@@ -33,7 +33,7 @@ eureka:
     registerWithEureka: true #服务注册开关
     fetchRegistry: true #服务发现开关
     serviceUrl: #Eureka客户端与Eureka服务端进行交互的地址，多个中间用逗号分隔
-      defaultZone: http://localhost:50101/eureka/,http://localhost:50102/eureka/
+      defaultZone: http://192.144.238.116:50101/eureka/,http://localhost:50102/eureka/
   instance:
     prefer-ip-address:  true  #将自己的ip地址注册到Eureka服务中
     ip-address: 127.0.0.1

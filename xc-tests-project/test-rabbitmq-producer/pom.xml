@@ -15,9 +15,9 @@
     <dependencies>
         <!--原生rabbitMQ-->
         <!--<dependency>-->
-            <!--<groupId>com.rabbitmq</groupId>-->
-            <!--<artifactId>amqp-client</artifactId>-->
-            <!--<version>4.0.3</version>&lt;!&ndash;此版本与spring boot 1.5.9版本匹配&ndash;&gt;-->
+        <!--<groupId>com.rabbitmq</groupId>-->
+        <!--<artifactId>amqp-client</artifactId>-->
+        <!--<version>4.0.3</version>&lt;!&ndash;此版本与spring boot 1.5.9版本匹配&ndash;&gt;-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

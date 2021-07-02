@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/course")
 public class CategoryController implements CategoryControllerApi {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/list")
+    @GetMapping("/category/list")
     @Override
     public CategoryNode findList() {
+        System.out.println("Yes");
         return categoryService.selectList();
     }
 }

@@ -49,4 +49,27 @@
             b.orderby,
             c.orderby
     </select>
+
+    <select id="selectPlan" parameterType="java.lang.String" resultType="com.xuecheng.framework.domain.course.Teachplan">
+        SELECT
+        id,
+        pname,
+        parentid,
+        grade,
+        ptype,
+        description,
+        courseid,
+        status,
+        orderby,
+        timelength,
+        trylearn
+        FROM teachplan
+        WHERE id = #{planid}
+    </select>
+
+    <delete id="deletePlan" parameterType="java.lang.String">
+        DELETE FROM teachplan
+        where id = #{id}
+        OR parentid = #{id}
+    </delete>
 </mapper>

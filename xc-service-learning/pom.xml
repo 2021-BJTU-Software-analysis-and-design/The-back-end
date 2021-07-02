@@ -12,7 +12,61 @@
 
     <artifactId>xc-service-learning</artifactId>
 
+    <!--swagger自动生产文档依赖仓库-->
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jcenter-releases</id>
+            <name>jcenter</name>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
+
+    <!--swagger自动生产文档插件-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.github.swagger2markup</groupId>
+                <artifactId>swagger2markup-maven-plugin</artifactId>
+                <version>1.3.3</version>
+                <configuration>
+                    <swaggerInput>http://localhost:40600/v2/api-docs</swaggerInput>
+                    <outputDir>../docs/asciidoc/generated/learning</outputDir>
+                    <config>
+                        <swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
+                    </config>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>1.5.8</version>
+                <configuration>
+                    <sourceDirectory>../docs/asciidoc/generated/learning</sourceDirectory>
+                    <outputDirectory>../docs/asciidoc/html/learning</outputDirectory>
+                    <backend>html</backend>
+                    <sourceHighlighter>coderay</sourceHighlighter>
+                    <attributes>
+                        <toc>left</toc>
+                    </attributes>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
     <dependencies>
+
+        <!--swagger自动生产文档依赖-->
+        <dependency>
+            <groupId>io.github.swagger2markup</groupId>
+            <artifactId>swagger2markup</artifactId>
+            <version>1.3.3</version>
+            <scope>test</scope>
+        </dependency>
 
         <!--devtools热部署-->
         <dependency>
@@ -65,6 +119,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.23</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

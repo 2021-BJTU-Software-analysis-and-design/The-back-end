@@ -48,4 +48,5 @@ public interface MediaUploadService {
      */
     ResponseResult mergeChunks(String fileMd5,String fileName,Long fileSize,String mimetype,String fileExt);
 
+    public ResponseResult sendProcessVideoMsg(String mediaId);
 }

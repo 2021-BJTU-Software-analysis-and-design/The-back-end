@@ -234,6 +234,7 @@ public class PageService {
     private Map getModelByPageId(String pageId){
         //查询页面信息
         CmsPageResult cmsPageResult = this.cmsPageQueryById(pageId);
+        System.out.println("pageID = "+pageId);
         CmsPage cmsPage = cmsPageResult.getCmsPage();
         //页面不存在
         if(cmsPage == null){
@@ -401,6 +402,9 @@ public class PageService {
             one.setPagePhysicalPath(cmsPage.getPagePhysicalPath());
             //更新dataUrl
             one.setDataUrl(cmsPage.getDataUrl());
+
+            one.setPageCreateTime(cmsPage.getPageCreateTime());
+
             CmsPage save = cmsPageRepository.save(one);
             if(save != null){
                 return new CmsPageResult(CommonCode.SUCCESS, save);

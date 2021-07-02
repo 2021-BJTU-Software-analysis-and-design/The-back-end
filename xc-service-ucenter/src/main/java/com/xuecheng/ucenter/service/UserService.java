@@ -2,6 +2,8 @@ package com.xuecheng.ucenter.service;
 
 import com.xuecheng.framework.domain.ucenter.XcUser;
 import com.xuecheng.framework.domain.ucenter.ext.XcUserExt;
+import com.xuecheng.framework.domain.ucenter.request.RegisterRequest;
+import com.xuecheng.framework.domain.ucenter.response.UcenterCode;
 
 //关于用户的相关操作
 public interface UserService {
@@ -18,4 +20,6 @@ public interface UserService {
      * @return XcUserExt
      */
     public XcUserExt getUserExt(String username);
+
+    public UcenterCode save(RegisterRequest registerRequest);
 }

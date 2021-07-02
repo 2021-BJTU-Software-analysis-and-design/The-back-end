@@ -310,7 +310,6 @@ public class CourseService {
         CourseBase courseBaseById = this.findCourseBaseById(courseId);
         courseBaseById.setStatus("202002");
         courseBaseRepository.save(courseBaseById);
-
         //课程索引...
         CoursePub coursePub = crateCoursePub(courseId);
         if(coursePub.getCharge() == null){
@@ -322,8 +321,6 @@ public class CourseService {
 
         //发布课程,添加数据到课程发布表内,由logstash采集到es
         CoursePub coursePubSave = saveCoursePub(courseId, coursePub);
-
-
         //保存该课程对应的媒资信息到媒资信息发布表,由logstash采集到es
         this.saveTeachplanMediaPub(courseId);
 
@@ -348,6 +345,7 @@ public class CourseService {
         for (TeachplanMedia teachplanMedia: byCourseId) {
             TeachplanMediaPub teachplanMediaPub = new TeachplanMediaPub();
             BeanUtils.copyProperties(teachplanMedia, teachplanMediaPub);
+            teachplanMediaPub.setTimestamp(new Date());
             teachplanMediaPubList.add(teachplanMediaPub);
         }
         //保存所有信息

@@ -45,6 +45,7 @@ public class EsCourseController implements EsCourseConrollerApi {
     @Override
     @GetMapping("/getdetail/{id}")
     public Map<String, CoursePub> getdetail(@PathVariable("id")String id) {
+        System.out.println("GetDetail id = "+id);
         return esCourseService.getdetail(id);
     }
 

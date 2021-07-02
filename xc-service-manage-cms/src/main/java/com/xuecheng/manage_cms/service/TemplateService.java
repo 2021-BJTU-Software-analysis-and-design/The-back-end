@@ -32,4 +32,6 @@ public class TemplateService {
         cmsTemplateQueryResult.setTotal(all.size());
         return new QueryResponseResult(CommonCode.SUCCESS,cmsTemplateQueryResult);
     }
+
+
 }
