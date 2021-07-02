@@ -165,4 +165,9 @@ public class TeachplanService {
         teachplanMediaRepositoy.save(mediaOne);
         return new ResponseResult(CommonCode.SUCCESS);
     }
+
+    public ResponseResult deleteTeachplan(String id){
+        teachplanMapper.deletePlan(id);
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
 }

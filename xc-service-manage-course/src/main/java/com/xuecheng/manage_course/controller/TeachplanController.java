@@ -37,4 +37,10 @@ public class TeachplanController implements TeachplanControllerApi {
     public ResponseResult saveTeachplanMedia(@RequestBody TeachplanMedia teachplanMedia) {
         return teachplanService.saveTeachplanMedia(teachplanMedia);
     }
+
+    @Override
+    @GetMapping("/teachplan/delete/{id}")
+    public ResponseResult deleteTeachplan(@PathVariable("id") String  id) {
+        return teachplanService.deleteTeachplan(id);
+    }
 }

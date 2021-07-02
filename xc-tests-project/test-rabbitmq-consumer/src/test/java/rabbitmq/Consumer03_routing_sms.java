@@ -36,13 +36,13 @@ public class Consumer03_routing_sms {
         /**
          * 声明交换机
          */
-        channel.exchangeDeclare(EXCHANGE_ROUTING_INFORM,BuiltinExchangeType.DIRECT);
+        channel.exchangeDeclare(EXCHANGE_ROUTING_INFORM, BuiltinExchangeType.DIRECT);
 
         /**
          * 绑定交换机
          */
-        channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_ROUTING_INFORM,ROUTINGKEY_INFORM_SMS);
-        channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_ROUTING_INFORM,"ALL"); //绑定一个公有的key,用于接收公共的key
+        channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_ROUTING_INFORM, ROUTINGKEY_INFORM_SMS);
+        channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_ROUTING_INFORM, "ALL"); //绑定一个公有的key,用于接收公共的key
 
         //定义消费方法
         DefaultConsumer defaultConsumer = new DefaultConsumer(channel) {

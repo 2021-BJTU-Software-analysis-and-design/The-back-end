@@ -17,10 +17,10 @@ public class Producer05_Topics_Springboot {
     RabbitTemplate rabbitTemplate;
 
     @Test
-    public void testSendByTopics(){
+    public void testSendByTopics() {
         for (int i = 0; i < 5; i++) {
             String message = "send email and sms inform to user " + i;
-            rabbitTemplate.convertAndSend(RabbitmqConfig.EXCHANGE_TOPICS_INFORM,"inform.sms.email",message);
+            rabbitTemplate.convertAndSend(RabbitmqConfig.EXCHANGE_TOPICS_INFORM, "inform.sms.email", message);
             System.out.println("Send Message is: " + message);
         }
     }

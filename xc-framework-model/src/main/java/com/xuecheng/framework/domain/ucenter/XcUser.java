@@ -18,7 +18,7 @@ import java.util.Date;
 public class XcUser {
 
     @Id
-    @GeneratedValue(generator = "jpa-uuid")
+    @GeneratedValue(generator = "jpa-uuid",strategy = GenerationType.IDENTITY)
     @Column(length = 32)
     private String id;
     private String username;

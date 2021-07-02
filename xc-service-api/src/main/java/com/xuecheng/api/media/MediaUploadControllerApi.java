@@ -28,4 +28,8 @@ public interface MediaUploadControllerApi {
                                       Long fileSize,
                                       String mimetype,
                                       String fileExt);
+
+    @ApiOperation("处理资源文件，即把mp4，avi文件转为m3u8和ts格式")
+    public ResponseResult process( String mediaId);
+
 }

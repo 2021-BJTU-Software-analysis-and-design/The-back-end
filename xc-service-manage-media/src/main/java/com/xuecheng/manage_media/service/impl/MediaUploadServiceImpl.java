@@ -199,7 +199,7 @@ class MediaUploadServiceImpl implements MediaUploadService {
     RabbitTemplate rabbitTemplate;
 
     //向MQ发送视频处理消息
-    private ResponseResult sendProcessVideoMsg(String mediaId){
+    public ResponseResult sendProcessVideoMsg(String mediaId){
         Optional<MediaFile> optional = mediaFileRepository.findById(mediaId);
         if(!optional.isPresent()){
             return new ResponseResult(CommonCode.FAIL);

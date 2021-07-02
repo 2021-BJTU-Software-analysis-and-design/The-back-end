@@ -36,12 +36,12 @@ public class Consumer02_subscribe_sms {
         /**
          * 声明交换机
          */
-        channel.exchangeDeclare(EXCHANGE_FANOUT_INFORM,BuiltinExchangeType.FANOUT);
+        channel.exchangeDeclare(EXCHANGE_FANOUT_INFORM, BuiltinExchangeType.FANOUT);
 
         /**
          * 绑定交换机
          */
-        channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_FANOUT_INFORM,"");
+        channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_FANOUT_INFORM, "");
 
         //定义消费方法
         DefaultConsumer defaultConsumer = new DefaultConsumer(channel) {

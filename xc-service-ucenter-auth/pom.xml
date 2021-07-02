@@ -12,7 +12,73 @@
 
     <artifactId>xc-service-ucenter-auth</artifactId>
 
+    <!--swagger自动生产文档依赖仓库-->
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jcenter-releases</id>
+            <name>jcenter</name>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
+
+    <!--swagger自动生产文档插件-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.github.swagger2markup</groupId>
+                <artifactId>swagger2markup-maven-plugin</artifactId>
+                <version>1.3.3</version>
+                <configuration>
+                    <swaggerInput>http://localhost:40400/v2/api-docs</swaggerInput>
+                    <outputDir>../docs/asciidoc/generated/ucenter-auth</outputDir>
+                    <config>
+                        <swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
+                    </config>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>1.5.8</version>
+                <configuration>
+                    <sourceDirectory>../docs/asciidoc/generated/ucenter-auth</sourceDirectory>
+                    <outputDirectory>../docs/asciidoc/html/ucenter-auth</outputDirectory>
+                    <backend>html</backend>
+                    <sourceHighlighter>coderay</sourceHighlighter>
+                    <attributes>
+                        <toc>left</toc>
+                    </attributes>
+                </configuration>
+            </plugin>
+
+            <!-- 这是spring boot devtool plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!--fork :  如果没有该项配置，devtools不会起作用，即应用不会restart -->
+                    <fork>true</fork>
+                    <addResources>true</addResources>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
     <dependencies>
+
+        <!--swagger自动生产文档依赖-->
+        <dependency>
+            <groupId>io.github.swagger2markup</groupId>
+            <artifactId>swagger2markup</artifactId>
+            <version>1.3.3</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.xuecheng</groupId>
             <artifactId>xc-framework-common</artifactId>
@@ -74,6 +140,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.23</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -107,19 +174,11 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
+        </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <!-- 这是spring boot devtool plugin -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!--fork :  如果没有该项配置，devtools不会起作用，即应用不会restart -->
-                    <fork>true</fork>
-                    <addResources>true</addResources>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
 </project>

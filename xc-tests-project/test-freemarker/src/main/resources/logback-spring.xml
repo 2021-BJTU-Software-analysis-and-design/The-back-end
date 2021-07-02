@@ -2,29 +2,31 @@
 <configuration scan="true" scanPeriod="5 seconds" debug="false">
     <contextName>logback</contextName>
     <!-- 配置日志输出路径（注：放到服务器上后记得更改路径） -->
-    <property name="log.split.path" value="D:\\logs\\logback_demo\\" />
+    <property name="log.split.path" value="D:\\logs\\logback_demo\\"/>
     <!-- 配置日志名称 -->
-    <property name="log.path" value="logback.log" />
+    <property name="log.path" value="logback.log"/>
     <!-- 配置切割后的debug日志输出路径 -->
-    <property name="log.debug.path" value="debug" />
+    <property name="log.debug.path" value="debug"/>
     <!-- 配置切割后的info日志输出路径 -->
-    <property name="log.info.path" value="info" />
+    <property name="log.info.path" value="info"/>
     <!-- 配置切割后的warn日志输出路径 -->
-    <property name="log.warn.path" value="warn" />
+    <property name="log.warn.path" value="warn"/>
     <!-- 配置切割后的error日志输出路径 -->
-    <property name="log.error.path" value="error" />
+    <property name="log.error.path" value="error"/>
     <!-- 配置日志文件最大数量 -->
-    <property name="log.file.max.num" value="30" />
+    <property name="log.file.max.num" value="30"/>
     <!-- 配置日志文件大小最大值 -->
-    <property name="log.file.max.size" value="50MB" />
+    <property name="log.file.max.size" value="50MB"/>
     <!-- 配置总日志文件大小最大值 -->
-    <property name="log.file.total.max.size" value="2GB" />
+    <property name="log.file.total.max.size" value="2GB"/>
 
     <!-- 输出到控制台 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!--配置输出日志为彩色-->
-            <pattern>%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)</pattern>
+            <pattern>%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) -
+                %cyan(%msg%n)
+            </pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
@@ -134,16 +136,15 @@
     </appender>
 
 
-
     <!-- 日志级别：TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
     <root level="info">
         <!-- 控制台日志 -->
-        <appender-ref ref="console" />
+        <appender-ref ref="console"/>
         <!-- 按级别输出到对应文件 -->
-        <appender-ref ref="debug" />
+        <appender-ref ref="debug"/>
         <appender-ref ref="info"/>
         <appender-ref ref="warn"/>
-        <appender-ref ref="error" />
+        <appender-ref ref="error"/>
     </root>
 
 </configuration>

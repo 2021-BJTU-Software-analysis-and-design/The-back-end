@@ -21,6 +21,7 @@ public class CmsPagePreviewController  extends BaseController {
     //接收到页面id
     @RequestMapping(value = "/cms/preview/{pageId}", method = RequestMethod.GET)
     public void preView(@PathVariable("pageId") String pageId) throws IOException, TemplateException {
+        System.out.println("pageId = "+pageId);
         String pageHtml = pageService.getPageHtml(pageId);
         if(StringUtils.isNotEmpty(pageHtml)){
             try {

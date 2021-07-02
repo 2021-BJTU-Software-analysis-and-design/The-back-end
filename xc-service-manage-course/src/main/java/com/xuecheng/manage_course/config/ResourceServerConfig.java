@@ -61,7 +61,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
   public void configure(HttpSecurity http) throws Exception {
     if(urlMatchers.equals("")){
       //如果urlMatchers未指定,则所有url都需要授权后才能被访问
-      http.authorizeRequests().anyRequest().authenticated();
+      http.authorizeRequests().anyRequest().permitAll();
     }else{
       //放行 urlMatchers 中指定的url条目, 未指定的url仍需授权后才能访问
       if(urlMatchers != null){
@@ -69,7 +69,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 //下边的路径放行
                 .antMatchers(split).permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll()/*.authenticated()*/;
       }
     }
   }

@@ -130,4 +130,6 @@ public class AuthController implements AuthControllerApi {
         //添加cookie 认证令牌，最后一个参数设置为false，表示允许浏览器获取
         CookieUtil.addCookie(response, cookieDomain, "/", "uid", token, cookieMaxAge, false);
     }
+
+
 }

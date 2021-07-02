@@ -52,45 +52,45 @@ public class Producer04_topcis {
              * param4:队列不再使用时是否自动删除此队列
              * param5:队列参数
              */
-            channel.queueDeclare(QUEUE_INFORM_EMAIL,true,false,false,null);
-            channel.queueDeclare(QUEUE_INFORM_SMS,true,false,false,null);
+            channel.queueDeclare(QUEUE_INFORM_EMAIL, true, false, false, null);
+            channel.queueDeclare(QUEUE_INFORM_SMS, true, false, false, null);
 
             /**
              * 将交换机和队列进行绑定
              */
-            channel.queueBind(QUEUE_INFORM_SMS,EXCHANGE_TOPICS_INFORM,ROUTINGKEY_INFORM_SMS);
-            channel.queueBind(QUEUE_INFORM_EMAIL,EXCHANGE_TOPICS_INFORM,ROUTINGKEY_INFORM_EMAIL);
+            channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_TOPICS_INFORM, ROUTINGKEY_INFORM_SMS);
+            channel.queueBind(QUEUE_INFORM_EMAIL, EXCHANGE_TOPICS_INFORM, ROUTINGKEY_INFORM_EMAIL);
 
             //发布消息到EMAIL
-            for (int i = 0; i < 5 ; i++) {
+            for (int i = 0; i < 5; i++) {
                 String message = "inform to email " + i;
-                channel.basicPublish(EXCHANGE_TOPICS_INFORM,"inform.email",null,message.getBytes());
+                channel.basicPublish(EXCHANGE_TOPICS_INFORM, "inform.email", null, message.getBytes());
                 System.out.println("Send Message is: " + message);
             }
 
             //发布消息SMS
-            for (int i = 0; i < 5 ; i++) {
+            for (int i = 0; i < 5; i++) {
                 String message = "inform to sms " + i;
-                channel.basicPublish(EXCHANGE_TOPICS_INFORM,"inform.sms",null,message.getBytes());
+                channel.basicPublish(EXCHANGE_TOPICS_INFORM, "inform.sms", null, message.getBytes());
                 System.out.println("Send Message is: " + message);
             }
 
             //发布消息到cms和email
-            for (int i = 0; i < 5 ; i++) {
+            for (int i = 0; i < 5; i++) {
                 String message = "inform to sms and email " + i;
-                channel.basicPublish(EXCHANGE_TOPICS_INFORM,"inform.sms.email",null,message.getBytes());
+                channel.basicPublish(EXCHANGE_TOPICS_INFORM, "inform.sms.email", null, message.getBytes());
                 System.out.println("Send Message is: " + message);
             }
 
 
-        }catch ( Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             //关闭通道和连接
-            if(channel != null){
+            if (channel != null) {
                 channel.close();
             }
-            if(channel != null){
+            if (channel != null) {
                 connection.close();
             }
         }

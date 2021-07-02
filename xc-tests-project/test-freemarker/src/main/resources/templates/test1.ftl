@@ -8,20 +8,21 @@
 Hello ${name}!
 <br/>
 <table>
-    北京市昌平区建材城西路金燕龙办公楼一层 电话：400-618-9090<tr>
-    <td>序号</td>
-    <td>姓名</td>
-    <td>年龄</td>
-    <td>钱包</td>
-</tr>
-<#list stus as stu>
-<tr>
-    <td>${stu_index + 1}</td>
-    <td <#if stu.name =='小明'>style="background:red;"</#if>>${stu.name}</td>
-    <td>${stu.age}</td>
-    <td >${stu.money}</td>
-</tr>
-</#list>
+    北京市昌平区建材城西路金燕龙办公楼一层 电话：400-618-9090
+    <tr>
+        <td>序号</td>
+        <td>姓名</td>
+        <td>年龄</td>
+        <td>钱包</td>
+    </tr>
+    <#list stus as stu>
+        <tr>
+            <td>${stu_index + 1}</td>
+            <td <#if stu.name =='小明'>style="background:red;"</#if>>${stu.name}</td>
+            <td>${stu.age}</td>
+            <td>${stu.money}</td>
+        </tr>
+    </#list>
 </table>
 <br/><br/>
 输出stu1的学生信息：<br/>
@@ -38,14 +39,14 @@ Hello ${name}!
         <td>年龄</td>
         <td>钱包</td>
     </tr>
-<#list stuMap?keys as k>
-<tr>
-    <td>${k_index + 1}</td>
-    <td>${stuMap[k].name}</td>
-    <td>${stuMap[k].age}</td>
-    <td >${stuMap[k].money}</td>
-</tr>
-</#list>
+    <#list stuMap?keys as k>
+        <tr>
+            <td>${k_index + 1}</td>
+            <td>${stuMap[k].name}</td>
+            <td>${stuMap[k].age}</td>
+            <td>${stuMap[k].money}</td>
+        </tr>
+    </#list>
 </table>
 </br>
 <table>
@@ -58,25 +59,25 @@ Hello ${name}!
         <td>朋友个数</td>
         <td>朋友列表</td>
     </tr>
-<#if stus??>
-    <#list stus as stu>
-<tr>
-    <td>${stu.name!''}</td>
-    <td>${stu.age}</td>
-    <td>${(stu.birthday?date)!''}</td>
-    <td>${stu.money}</td>
-    <td>${(stu.bestFriend.name)!''}</td>
-    <td>${(stu.friends?size)!0}</td>
-    <td>
-<#if stu.friends??>
-<#list stu.friends as firend>
-    ${firend.name!''}<br/>
-</#list>
-</#if>
-    </td>
-</tr>
-    </#list>
-</#if>
+    <#if stus??>
+        <#list stus as stu>
+            <tr>
+                <td>${stu.name!''}</td>
+                <td>${stu.age}</td>
+                <td>${(stu.birthday?date)!''}</td>
+                <td>${stu.money}</td>
+                <td>${(stu.bestFriend.name)!''}</td>
+                <td>${(stu.friends?size)!0}</td>
+                <td>
+                    <#if stu.friends??>
+                        <#list stu.friends as firend>
+                            ${firend.name!''}<br/>
+                        </#list>
+                    </#if>
+                </td>
+            </tr>
+        </#list>
+    </#if>
 </table>
 <br/>
 <#assign text="{'bank':'工商银行','account':'10101920201920212'}" />

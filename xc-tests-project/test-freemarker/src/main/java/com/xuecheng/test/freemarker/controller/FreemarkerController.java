@@ -1,4 +1,5 @@
 package com.xuecheng.test.freemarker.controller;
+
 import com.xuecheng.test.freemarker.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,11 @@ public class FreemarkerController {
 
     /**
      * 调试课程预览模板渲染
+     *
      * @param map
      */
     @RequestMapping("/courseview")
-    public String testCourseView(Map<String,Object> map){
+    public String testCourseView(Map<String, Object> map) {
         ResponseEntity<Map> responseEntity = restTemplate.getForEntity("http://localhost:31200/course/courseview/4028e581617f945f01617f9dabc40000", Map.class);
         Map entityBody = responseEntity.getBody();
         map.putAll(entityBody);
@@ -38,7 +40,7 @@ public class FreemarkerController {
      * 用于调试banner模板
      */
     @RequestMapping("/banner")
-    public String indexBanner(Map<String,Object> map){
+    public String indexBanner(Map<String, Object> map) {
         String dataUrl = "http://localhost:31001/cms/config/getmodel/5a791725dd573c3574ee333f";
         ResponseEntity<Map> forEntity = restTemplate.getForEntity(dataUrl, Map.class);
         Map body = forEntity.getBody();
@@ -48,11 +50,12 @@ public class FreemarkerController {
 
     /**
      * 测试1
+     *
      * @param map freemarker引擎会自动从Map形参中读取变量进行渲染
      * @return
      */
     @RequestMapping("/test1")
-    public String freemarker(Map<String,Object> map){
+    public String freemarker(Map<String, Object> map) {
         map.put("name", "黑马程序员");
         //学生对象1
         Student stu1 = new Student();
@@ -71,14 +74,14 @@ public class FreemarkerController {
         stus.add(stu1);
         stus.add(stu2);
         //向数据模型中放入List
-        map.put("stus",stus);
+        map.put("stus", stus);
 
         //准备map数据
         HashMap<Object, Object> stuMap = new HashMap<>();
-        stuMap.put("stu1",stu1);
-        stuMap.put("stu2",stu2);
+        stuMap.put("stu1", stu1);
+        stuMap.put("stu2", stu2);
         //像数据模型内放数据
-        map.put("stu1",stu1);
+        map.put("stu1", stu1);
         //向数据模型放入stuMap
         map.put("stuMap", stuMap);
 

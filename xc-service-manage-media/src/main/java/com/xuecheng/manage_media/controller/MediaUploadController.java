@@ -5,10 +5,7 @@ import com.xuecheng.framework.domain.media.response.CheckChunkResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_media.service.MediaUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -40,5 +37,11 @@ public class MediaUploadController implements MediaUploadControllerApi {
     @Override
     public ResponseResult mergeChunks(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt) {
         return mediaUploadService.mergeChunks(fileMd5,fileName,fileSize,mimetype,fileExt);
+    }
+
+    @Override
+    @GetMapping("/process/{mediaId}")
+    public ResponseResult process(@PathVariable("mediaId") String mediaId) {
+        return mediaUploadService.sendProcessVideoMsg(mediaId);
     }
 }
